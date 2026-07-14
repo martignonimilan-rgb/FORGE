@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentions légales — FORGE</title>
+  <link rel="icon" href="forge-logo-icon.svg" type="image/svg+xml" />
+  <link rel="shortcut icon" href="forge-logo-icon.svg" />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --bg2: #0e1220;
+      --bg3: #121828;
+      --border: rgba(255,255,255,0.07);
+      --border-blue: rgba(100,130,255,0.12);
+      --orange: #e8620a;
+      --orange-light: #ff7a20;
+      --orange-dim: rgba(232,98,10,0.10);
+      --text: #ffffff;
+      --text-muted: rgba(255,255,255,0.55);
+      --text-dim: rgba(255,255,255,0.30);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: linear-gradient(160deg, #0a0e1a 0%, #0d0d0d 100%);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(10,14,26,0.92);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border-blue);
+    }
+    .nav-logo {
+      font-size: 1.4rem; font-weight: 900; color: #fff;
+      letter-spacing: 6px; text-decoration: none;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-back {
+      color: var(--text-muted); text-decoration: none; font-size: 0.88rem;
+      font-weight: 500; transition: color 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-back:hover { color: #fff; }
+
+    /* PAGE */
+    .page-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 140px 40px 80px;
+    }
+
+    .page-tag {
+      display: inline-block;
+      background: var(--orange-dim);
+      color: var(--orange);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+
+    .last-update {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      margin-bottom: 60px;
+    }
+
+    /* SECTIONS */
+    .ml-section {
+      border-top: 1px solid var(--border);
+      padding-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .ml-section h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+
+    .ml-section p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .ml-section p:last-child { margin-bottom: 0; }
+
+    .ml-section strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* INFO TABLE */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+    }
+    .info-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+    .info-table td {
+      padding: 12px 0;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .info-table td:first-child {
+      width: 220px;
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-right: 24px;
+    }
+    .info-table td strong { color: #fff; }
+
+    /* PLACEHOLDER */
+    .placeholder {
+      background: rgba(232,98,10,0.12);
+      border: 1px dashed rgba(232,98,10,0.4);
+      border-radius: 4px;
+      padding: 2px 8px;
+      color: var(--orange);
+      font-size: 0.82rem;
+      font-family: 'Inter', monospace;
+      display: inline-block;
+    }
+
+    /* RGPD rights list */
+    .rights-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+    }
+    .rights-list li {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .rights-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 80px;
+      padding: 40px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo {
+      font-size: 1.2rem; font-weight: 900; letter-spacing: 6px;
+      margin-bottom: 8px;
+    }
+    .footer-logo span { color: var(--orange); }
+    footer p {
+      color: var(--text-dim);
+      font-size: 0.80rem;
+      margin-bottom: 6px;
+    }
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--orange); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">F<span>O</span>RGE</a>
+    <a href="index.html" class="nav-back">← Retour au site</a>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="page-wrap">
+
+    <div class="page-tag">Légal</div>
+    <h1>Mentions légales</h1>
+    <p class="last-update">Dernière mise à jour : juillet 2026</p>
+
+    <!-- 1. ÉDITEUR -->
+    <div class="ml-section">
+      <h2>1. Éditeur du site</h2>
+      <table class="info-table">
+        <tr>
+          <td>Nom &amp; prénom</td>
+          <td><strong><span class="placeholder">PRÉNOM NOM</span></strong> — à compléter avant publication</td>
+        </tr>
+        <tr>
+          <td>Statut</td>
+          <td><strong>Auto-entrepreneur (micro-entrepreneur)</strong></td>
+        </tr>
+        <tr>
+          <td>Nom commercial</td>
+          <td><strong>FORGE</strong></td>
+        </tr>
+        <tr>
+          <td>SIRET</td>
+          <td><span class="placeholder">En cours d'immatriculation</span></td>
+        </tr>
+        <tr>
+          <td>Adresse</td>
+          <td><span class="placeholder">ADRESSE COMPLÈTE</span></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><strong>contact@forge-artisans.fr</strong></td>
+        </tr>
+        <tr>
+          <td>Site web</td>
+          <td><strong>forge-artisans.fr</strong></td>
+        </tr>
+      </table>
+      <p>Conformément à la loi n°2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), l'éditeur du site est la personne physique identifiée ci-dessus.</p>
+    </div>
+
+    <!-- 2. DIRECTEUR DE PUBLICATION -->
+    <div class="ml-section">
+      <h2>2. Directeur de la publication</h2>
+      <p>Le directeur de la publication du site forge-artisans.fr est <strong><span class="placeholder">PRÉNOM NOM</span></strong>, auto-entrepreneur.</p>
+    </div>
+
+    <!-- 3. HÉBERGEUR -->
+    <div class="ml-section">
+      <h2>3. Hébergeur du site</h2>
+      <table class="info-table">
+        <tr>
+          <td>Société</td>
+          <td><strong>Netlify, Inc.</strong></td>
+        </tr>
+        <tr>
+          <td>Adresse</td>
+          <td>44 Montgomery Street, Suite 300<br>San Francisco, CA 94104 — États-Unis</td>
+        </tr>
+        <tr>
+          <td>Site</td>
+          <td><strong>www.netlify.com</strong></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 4. PROPRIÉTÉ INTELLECTUELLE -->
+    <div class="ml-section">
+      <h2>4. Propriété intellectuelle</h2>
+      <p>L'ensemble du contenu de ce site (textes, images, visuels, logos, structure) est la propriété exclusive de FORGE et de son éditeur, protégé par les lois françaises et internationales relatives à la propriété intellectuelle.</p>
+      <p>Toute reproduction, représentation, modification, publication ou transmission totale ou partielle du contenu de ce site, par quelque procédé que ce soit, est interdite sans l'autorisation préalable et écrite de l'éditeur.</p>
+    </div>
+
+    <!-- 5. DONNÉES PERSONNELLES / RGPD -->
+    <div class="ml-section">
+      <h2>5. Données personnelles (RGPD)</h2>
+
+      <p><strong>Responsable du traitement :</strong> <span class="placeholder">PRÉNOM NOM</span>, FORGE — contact@forge-artisans.fr</p>
+
+      <p style="margin-top:16px;"><strong>Données collectées</strong></p>
+      <p>Le formulaire de contact collecte les données suivantes : prénom, numéro de téléphone, métier et message. Ces données sont collectées dans le seul but de répondre à votre demande de contact et de vous proposer nos services.</p>
+
+      <p style="margin-top:16px;"><strong>Base légale</strong></p>
+      <p>Le traitement est fondé sur votre consentement (article 6.1.a du RGPD), exprimé par l'envoi volontaire du formulaire.</p>
+
+      <p style="margin-top:16px;"><strong>Durée de conservation</strong></p>
+      <p>Vos données sont conservées pendant <strong>3 ans</strong> à compter du dernier contact, puis supprimées.</p>
+
+      <p style="margin-top:16px;"><strong>Destinataires</strong></p>
+      <p>Vos données ne sont ni vendues, ni louées, ni cédées à des tiers. Elles peuvent être transmises à des prestataires techniques (hébergeur du formulaire) dans le cadre strict du traitement de votre demande.</p>
+
+      <p style="margin-top:16px;"><strong>Vos droits</strong></p>
+      <p>Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits suivants :</p>
+      <ul class="rights-list">
+        <li><strong>Droit d'accès</strong> — obtenir la confirmation du traitement de vos données et en avoir une copie</li>
+        <li><strong>Droit de rectification</strong> — corriger des données inexactes ou incomplètes</li>
+        <li><strong>Droit à l'effacement</strong> — demander la suppression de vos données (« droit à l'oubli »)</li>
+        <li><strong>Droit à la limitation</strong> — suspendre un traitement sans supprimer les données</li>
+        <li><strong>Droit d'opposition</strong> — vous opposer à l'utilisation de vos données à des fins commerciales</li>
+        <li><strong>Droit à la portabilité</strong> — recevoir vos données dans un format structuré</li>
+      </ul>
+      <p style="margin-top:16px;">Pour exercer vos droits, adressez votre demande par email à : <strong>contact@forge-artisans.fr</strong>. Une réponse vous sera apportée dans un délai de 30 jours.</p>
+      <p>En cas de litige, vous pouvez introduire une réclamation auprès de la <strong>CNIL</strong> (Commission Nationale de l'Informatique et des Libertés) — <strong>www.cnil.fr</strong>.</p>
+    </div>
+
+    <!-- 6. COOKIES -->
+    <div class="ml-section">
+      <h2>6. Cookies</h2>
+      <p>Ce site utilise un nombre minimal de cookies techniques nécessaires à son bon fonctionnement (session, sécurité du formulaire). Ces cookies ne collectent aucune donnée personnelle à des fins publicitaires ou de traçage.</p>
+      <p>Si un widget de chat (Tidio) est activé sur ce site, il peut déposer ses propres cookies. Vous pouvez refuser ces cookies via les paramètres de votre navigateur sans que cela n'affecte votre navigation.</p>
+      <p>Conformément à la recommandation de la CNIL, les cookies non essentiels ne sont pas activés sans votre consentement préalable.</p>
+    </div>
+
+    <!-- 7. LIENS EXTERNES -->
+    <div class="ml-section">
+      <h2>7. Liens hypertextes</h2>
+      <p>Le site forge-artisans.fr peut contenir des liens vers des sites tiers (Google, Netlify, etc.). FORGE n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu ou leurs pratiques en matière de données personnelles.</p>
+    </div>
+
+    <!-- 8. LIMITATION DE RESPONSABILITÉ -->
+    <div class="ml-section">
+      <h2>8. Limitation de responsabilité</h2>
+      <p>FORGE s'efforce de maintenir les informations de ce site à jour et exactes. Toutefois, l'éditeur ne peut garantir l'exactitude, la complétude ou l'actualité des informations publiées et décline toute responsabilité pour les dommages directs ou indirects résultant de l'utilisation du site.</p>
+    </div>
+
+    <!-- 9. DROIT APPLICABLE -->
+    <div class="ml-section">
+      <h2>9. Droit applicable</h2>
+      <p>Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">F<span>O</span>RGE</div>
+    <p>Présence digitale pour artisans &amp; indépendants</p>
+    <p style="margin-top:8px;">
+      <a href="index.html">Accueil</a>
+      &nbsp;·&nbsp;
+      <a href="mentions-legales.html">Mentions légales</a>
+    </p>
+    <p style="margin-top:10px;">© 2026 FORGE</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FORGE — Mind Map Duplication</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f4f1; font-family: 'Segoe UI', sans-serif; overflow: hidden; width: 100%; height: 100vh; }
+  canvas { width: 100%; height: 100vh; cursor: grab; display: block; }
+  canvas:active { cursor: grabbing; }
+  .tooltip { position: fixed; background: #1a1a1a; color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 12px; pointer-events: none; display: none; max-width: 240px; line-height: 1.5; z-index: 100; }
+  #legend { position: fixed; bottom: 16px; left: 16px; background: white; border-radius: 10px; padding: 12px 16px; font-size: 11px; color: #555; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+  #legend div { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  #legend span { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  #hint { position: fixed; top: 12px; right: 16px; font-size: 11px; color: #aaa; }
+  h1 { position: fixed; top: 14px; left: 20px; font-size: 18px; font-family: 'Segoe UI', sans-serif; color: #1a1a1a; letter-spacing: 1px; }
+  h1 span { color: #E8620A; }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<h1>F<span>O</span>RGE — Duplication Client</h1>
+<div class="tooltip" id="tooltip"></div>
+<div id="legend">
+  <div><span style="background:#E8620A"></span> Centre</div>
+  <div><span style="background:#2E7D32"></span> Phases client</div>
+  <div><span style="background:#1565C0"></span> Process & outils</div>
+  <div><span style="background:#6A1B9A"></span> Revenus</div>
+  <div><span style="background:#C62828"></span> Pièges à éviter</div>
+</div>
+<div id="hint">Survole · Glisse · Molette pour zoomer</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+
+let W, H;
+let scale = 1, offsetX = 0, offsetY = 0;
+let dragging = false, lastX, lastY;
+let nodes = [], edges = [];
+let hovered = null;
+
+const C = {
+  center:  '#E8620A',
+  phase:   '#2E7D32',
+  process: '#1565C0',
+  revenue: '#6A1B9A',
+  risk:    '#C62828',
+};
+
+function deg(d) { return d * Math.PI / 180; }
+
+const branches = [
+  {
+    label: '① ACQUISITION\nClient', color: C.phase, angle: -90, dist: 200,
+    tip: 'Trouver de nouveaux artisans prospects.',
+    children: [
+      { label: 'Cibler artisans\nen lancement', tip: 'Auto-entrepreneurs récents = plus réceptifs. Source : SIRENE, réseaux locaux.' },
+      { label: 'Groupes Facebook\nlocaux 37', tip: 'Rejoindre groupes artisans Tours / 37. Visibilité organique.' },
+      { label: 'CMA Tours\n(Chambre des Métiers)', tip: 'Partenariat ou présence aux événements CMA.' },
+      { label: 'Bouche-à-oreille\n(PYRUS → autres)', tip: 'Chaque client satisfait est une source de référencement.' },
+      { label: 'Pitch 1 page\nà envoyer', tip: 'Document FORGE déjà créé. Envoyer après 1er contact.' },
+    ]
+  },
+  {
+    label: '② ONBOARDING\nClient', color: C.process, angle: -20, dist: 210,
+    tip: 'Intégrer un nouveau client de façon standardisée.',
+    children: [
+      { label: 'Appel 20 min\n(découverte)', tip: 'Comprendre activité, zone, concurrents, budget.' },
+      { label: 'Questionnaire\nclient (Word)', tip: 'Doc déjà créé pour PYRUS. Adapter à chaque métier.' },
+      { label: 'Accord simple\npar email', tip: 'Pas de contrat lourd. Email de confirmation suffit.' },
+      { label: 'Brief photo\n+ contenu', tip: 'Liste des photos à fournir. Textes à valider avant mise en ligne.' },
+    ]
+  },
+  {
+    label: '③ SITE WEB\nCréation', color: C.process, angle: 40, dist: 220,
+    tip: 'Livrer un site pro en moins de 48h.',
+    children: [
+      { label: 'Template HTML\nréutilisable', tip: 'Base PYRUS adaptable à tout artisan. Changer couleurs, textes, photos.' },
+      { label: 'GitHub Pages\n(gratuit, rapide)', tip: 'Hébergement 0 €. Déploiement en 5 min. URL propre via orga.' },
+      { label: 'Sections fixes :\nhéro, services,\nzone, contact', tip: '4 sections suffisent pour 95% des artisans.' },
+      { label: 'Mobile first\n+ formulaire devis', tip: '70%+ du trafic artisan vient du mobile.' },
+      { label: 'Validation\nclient avant live', tip: 'Envoyer un lien preview. 1 tour de corrections max.' },
+    ]
+  },
+  {
+    label: '④ GOOGLE\nBusiness', color: C.process, angle: 100, dist: 200,
+    tip: 'Activer la visibilité locale sur Google Maps.',
+    children: [
+      { label: 'Attendre SIRET\n(obligatoire)', tip: 'Pas de fiche sans SIRET. Anticiper en préparant le contenu.' },
+      { label: 'Contenu préparé\nen avance', tip: 'Description, catégories, horaires, zone — tout prêt avant création.' },
+      { label: '5 photos minimum\nau lancement', tip: 'Google pénalise les fiches sans photos. Briefer le client.' },
+      { label: 'Validation\npar courrier Google', tip: '1–2 semaines de délai. Prévenir le client.' },
+      { label: 'Stratégie avis :\ndemander à chaque\nclient satisfait', tip: 'Objectif 5 avis en 3 mois. Partager le lien direct.' },
+    ]
+  },
+  {
+    label: '⑤ REVENUS\n& Suivi', color: C.revenue, angle: 160, dist: 210,
+    tip: 'Passer du one-shot au récurrent.',
+    children: [
+      { label: 'One-shot site :\n300–600 €', tip: 'Revenu immédiat. Non récurrent. Objectif : convaincre du suivi.' },
+      { label: 'Suivi mensuel :\n100 €/mois', tip: 'Stats, mises à jour, fiche Google. 1–2h/mois par client.' },
+      { label: 'Google Ads :\n+15% du budget', tip: 'Ex : 200 € budget client = 30 € commission FORGE/mois.' },
+      { label: 'Rapport mensuel\n1 page', tip: 'Vues fiche, appels reçus, clics site. Prouve la valeur.' },
+      { label: 'Objectif : 5 clients\n= 500 €/mois fixe', tip: '5 suivis × 100 € = base stable sans nouvelles ventes.' },
+    ]
+  },
+  {
+    label: '⑥ GOOGLE ADS\nCampagnes', color: C.process, angle: -160, dist: 210,
+    tip: 'Levier de croissance rapide pour l\'artisan.',
+    children: [
+      { label: 'Attendre SIRET\n+ fiche live', tip: 'Les Ads sont plus efficaces avec une fiche Google active.' },
+      { label: 'Budget mini :\n200 €/mois', tip: 'En dessous, trop peu de données pour optimiser.' },
+      { label: 'Mots-clés locaux\n(ville + métier)', tip: 'Ex: "élagueur Luynes", "plombier Tours urgence"' },
+      { label: 'Campagne Search\nuniquement au départ', tip: 'Display et Remarketing plus tard.' },
+      { label: 'Rapport\nROI mensuel', tip: 'Montrer le coût par appel. Si > panier moyen, ajuster.' },
+    ]
+  },
+  {
+    label: '⑦ PIÈGES\nÀ ÉVITER', color: C.risk, angle: -130, dist: 195,
+    tip: 'Les erreurs les plus fréquentes.',
+    children: [
+      { label: 'Client sans SIRET :\nn\'attends pas passif', tip: 'Prépare tout en avance. Relancer après 3 semaines.' },
+      { label: 'Trop de temps\nsur 1 client', tip: 'Viser 10h max en one-shot. Template = efficacité.' },
+      { label: 'Pas de suivi\naprès livraison', tip: 'Sans suivi, le client t\'oublie. 1 message/mois minimum.' },
+      { label: 'Trop de services\ntrop vite', tip: 'Maîtriser site + Google Business avant d\'ajouter Ads.' },
+      { label: 'Amis comme\nseuls clients', tip: 'PYRUS = référence, pas modèle. Viser des inconnus dès M2.' },
+    ]
+  },
+];
+
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+  buildGraph();
+  draw();
+}
+
+function buildGraph() {
+  nodes = []; edges = [];
+  nodes.push({ id: 0, x: 0, y: 0, label: 'FORGE\nDuplication', color: C.center, r: 54, tip: 'Process complet pour dupliquer le business FORGE avec un nouveau client artisan.' });
+
+  let nid = 1;
+  branches.forEach((b) => {
+    const bx = Math.cos(deg(b.angle)) * b.dist;
+    const by = Math.sin(deg(b.angle)) * b.dist;
+    const bid = nid++;
+    nodes.push({ id: bid, x: bx, y: by, label: b.label, color: b.color, r: 38, tip: b.tip });
+    edges.push({ from: 0, to: bid, color: b.color, w: 3 });
+
+    const n = b.children.length;
+    b.children.forEach((c, ci) => {
+      const spread = 52;
+      const perp = b.angle + 90;
+      const offset = (ci - (n - 1) / 2) * spread;
+      const childDist = 155;
+      const cx2 = bx + Math.cos(deg(b.angle)) * childDist + Math.cos(deg(perp)) * offset;
+      const cy2 = by + Math.sin(deg(b.angle)) * childDist + Math.sin(deg(perp)) * offset;
+      const cid = nid++;
+      nodes.push({ id: cid, x: cx2, y: cy2, label: c.label, color: b.color, r: 26, tip: c.tip, isChild: true });
+      edges.push({ from: bid, to: cid, color: b.color + '99', w: 1.5 });
+    });
+  });
+}
+
+function worldToScreen(x, y) {
+  return [(x + W/2 + offsetX) * scale, (y + H/2 + offsetY) * scale];
+}
+function screenToWorld(sx, sy) {
+  return [sx / scale - W/2 - offsetX, sy / scale - H/2 - offsetY];
+}
+
+function drawNode(n, isHovered) {
+  const [sx, sy] = worldToScreen(n.x, n.y);
+  const r = n.r * scale;
+  const lines = n.label.split('\n');
+  ctx.shadowColor = 'rgba(0,0,0,0.15)';
+  ctx.shadowBlur = isHovered ? 18 : 8;
+  ctx.beginPath();
+  ctx.arc(sx, sy, r, 0, Math.PI * 2);
+  if (n.isChild) {
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+    ctx.strokeStyle = n.color;
+    ctx.lineWidth = 2 * scale;
+    ctx.stroke();
+  } else {
+    ctx.fillStyle = n.color;
+    ctx.fill();
+  }
+  ctx.shadowBlur = 0;
+  const baseSize = n.r === 54 ? 13 : n.r === 38 ? 10 : 8.5;
+  const fs = Math.max(8, baseSize * scale);
+  ctx.font = `bold ${fs}px Segoe UI, sans-serif`;
+  ctx.fillStyle = n.isChild ? n.color : '#ffffff';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const lh = fs * 1.25;
+  const startY = sy - ((lines.length - 1) * lh) / 2;
+  lines.forEach((line, i) => ctx.fillText(line, sx, startY + i * lh));
+  if (isHovered) {
+    ctx.beginPath();
+    ctx.arc(sx, sy, r + 4 * scale, 0, Math.PI * 2);
+    ctx.strokeStyle = n.color;
+    ctx.lineWidth = 2 * scale;
+    ctx.stroke();
+  }
+}
+
+function drawEdge(e) {
+  const from = nodes.find(n => n.id === e.from);
+  const to = nodes.find(n => n.id === e.to);
+  const [fx, fy] = worldToScreen(from.x, from.y);
+  const [tx, ty] = worldToScreen(to.x, to.y);
+  ctx.beginPath();
+  ctx.moveTo(fx, fy);
+  ctx.quadraticCurveTo((fx+tx)/2, (fy+ty)/2, tx, ty);
+  ctx.strokeStyle = e.color;
+  ctx.lineWidth = e.w * scale;
+  ctx.stroke();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#f5f4f1';
+  ctx.fillRect(0, 0, W, H);
+  edges.forEach(e => drawEdge(e));
+  [...nodes].sort((a, b) => a.id === 0 ? 1 : b.id === 0 ? -1 : 0).forEach(n => drawNode(n, hovered === n.id));
+}
+
+function getHovered(mx, my) {
+  const [wx, wy] = screenToWorld(mx, my);
+  let best = null, bestD = Infinity;
+  nodes.forEach(n => {
+    const d = Math.hypot(wx - n.x, wy - n.y);
+    if (d < n.r && d < bestD) { bestD = d; best = n.id; }
+  });
+  return best;
+}
+
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  if (dragging) {
+    offsetX += (mx - lastX) / scale;
+    offsetY += (my - lastY) / scale;
+    lastX = mx; lastY = my;
+    draw(); return;
+  }
+  const h = getHovered(mx, my);
+  if (h !== hovered) { hovered = h; draw(); }
+  if (h !== null) {
+    tooltip.style.display = 'block';
+    tooltip.style.left = (e.clientX + 14) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+    tooltip.textContent = nodes.find(n => n.id === h).tip;
+    canvas.style.cursor = 'pointer';
+  } else {
+    tooltip.style.display = 'none';
+    canvas.style.cursor = 'grab';
+  }
+});
+canvas.addEventListener('mousedown', e => { dragging = true; const r = canvas.getBoundingClientRect(); lastX = e.clientX-r.left; lastY = e.clientY-r.top; });
+canvas.addEventListener('mouseup', () => dragging = false);
+canvas.addEventListener('mouseleave', () => { dragging = false; tooltip.style.display = 'none'; });
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const [wx, wy] = screenToWorld(mx, my);
+  scale *= e.deltaY < 0 ? 1.1 : 0.9;
+  scale = Math.max(0.3, Math.min(3, scale));
+  offsetX = mx / scale - W/2 - wx;
+  offsetY = my / scale - H/2 - wy;
+  draw();
+}, { passive: false });
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+</body>
+</html>

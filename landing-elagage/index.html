@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Élagueur Professionnel en Indre-et-Loire (37) | Pyrus — Devis Gratuit</title>
+  <meta name="description" content="Élagueur professionnel en Indre-et-Loire. Élagage, abattage, taille raisonnée, entretien de jardin. Devis gratuit sous 24h. Intervention sur tout le 37.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --green-dark: #1a3a1a;
+      --green-mid: #2d6a2d;
+      --green-light: #4a9e4a;
+      --gold: #c8a84b;
+      --cream: #faf8f3;
+      --white: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #666;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); }
+
+    /* NAV */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 32px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem; font-weight: 800; color: white; letter-spacing: 3px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold); color: #1a1a1a; font-weight: 700; font-size: 0.85rem;
+      padding: 10px 22px; border-radius: 50px; text-decoration: none;
+      letter-spacing: 0.5px; transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: #dbb85a; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1754321902809-5c21cbc67228?fm=jpg&q=80&w=1600&auto=format&fit=crop');
+      background-size: cover; background-position: center 30%; filter: brightness(0.38);
+    }
+    .hero-content { position: relative; text-align: center; color: var(--white); padding: 40px 24px; max-width: 780px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(200,168,75,0.2); border: 1px solid rgba(200,168,75,0.5);
+      color: #e8c86a; font-size: 0.78rem; font-weight: 600; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 8px 18px; border-radius: 50px; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800; line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.5px;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero-sub { font-size: clamp(1rem, 2.5vw, 1.2rem); opacity: 0.85; margin-bottom: 14px; line-height: 1.6; }
+    .hero-zone {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.8); font-size: 0.85rem; padding: 6px 16px;
+      border-radius: 50px; margin-bottom: 40px;
+    }
+    .hero-ctas { display: flex; flex-direction: column; gap: 14px; align-items: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--gold); color: var(--green-dark); font-weight: 700; font-size: 1.05rem;
+      padding: 18px 36px; border-radius: 50px; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 4px 24px rgba(200,168,75,0.4); width: 100%; max-width: 380px;
+    }
+    .btn-primary:hover { background: #dbb94e; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(200,168,75,0.5); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: transparent; color: var(--white); font-weight: 600; font-size: 1rem;
+      padding: 16px 36px; border-radius: 50px; text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.4); transition: border-color 0.2s, background 0.2s;
+      width: 100%; max-width: 380px;
+    }
+    .btn-secondary:hover { border-color: white; background: rgba(255,255,255,0.08); }
+    .hero-scroll {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .hero-scroll::after { content: ''; width: 1px; height: 36px; background: rgba(255,255,255,0.3); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+
+    /* STATS */
+    .stats-bar { background: var(--green-dark); padding: 28px 24px; }
+    .stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); }
+    .stat-item { text-align: center; color: white; padding: 0 20px; border-right: 1px solid rgba(255,255,255,0.1); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); display: block; line-height: 1; margin-bottom: 4px; }
+    .stat-label { font-size: 0.8rem; opacity: 0.7; }
+
+    /* SECTIONS */
+    .section { padding: 80px 24px; }
+    .section-inner { max-width: 960px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block; background: #edf7ed; color: var(--green-mid);
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 50px; margin-bottom: 16px;
+    }
+    .section h2 {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700; color: var(--green-dark); margin-bottom: 12px; line-height: 1.2;
+    }
+    .section-sub { color: var(--text-muted); font-size: 1rem; margin-bottom: 48px; max-width: 520px; }
+
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .service-card {
+      background: var(--cream); border: 1px solid #e8e8e0; border-radius: 20px; padding: 32px 24px;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); border-color: var(--green-light); }
+    .service-icon { width: 52px; height: 52px; background: #edf7ed; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 16px; }
+    .service-card h3 { font-size: 1rem; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+    .service-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ARGUMENTS */
+    .arguments { background: var(--green-dark); padding: 80px 24px; }
+    .arguments h2 { color: white; }
+    .arguments .section-sub { color: rgba(255,255,255,0.6); }
+    .arguments .section-tag { background: rgba(200,168,75,0.2); color: #e8c86a; }
+    .args-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+    .arg-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 28px 24px; transition: background 0.2s; }
+    .arg-card:hover { background: rgba(255,255,255,0.1); }
+    .arg-icon { width: 44px; height: 44px; background: rgba(200,168,75,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 14px; }
+    .arg-card h4 { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 6px; }
+    .arg-card p { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    /* ZONE */
+    .zone-section { background: var(--cream); padding: 60px 24px; text-align: center; }
+    .zone-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 28px; }
+    .zone-pill { background: white; border: 1px solid #ddd; color: var(--green-dark); font-size: 0.85rem; font-weight: 600; padding: 8px 18px; border-radius: 50px; }
+
+    /* FORMULAIRE */
+    .form-section { padding: 80px 24px; background: white; }
+    .form-section .section-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .form-left { padding-top: 8px; }
+    .form-left h2 { margin-bottom: 16px; }
+    .form-left .section-sub { margin-bottom: 32px; }
+    .trust-items { display: flex; flex-direction: column; gap: 14px; }
+    .trust-item { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; color: var(--text-muted); }
+    .trust-check { width: 22px; height: 22px; background: #edf7ed; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; color: var(--green-mid); }
+    .form-card { background: var(--cream); border-radius: 24px; padding: 36px; border: 1px solid #e8e8e0; }
+    .form-card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--green-dark); margin-bottom: 6px; }
+    .form-card-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 28px; }
+    form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    input, select, textarea {
+      width: 100%; padding: 13px 16px; border: 1.5px solid #ddd; border-radius: 12px;
+      font-size: 0.95rem; font-family: 'Inter', sans-serif; color: var(--text); background: white;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none; -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(45,106,45,0.1); }
+    textarea { resize: vertical; min-height: 90px; }
+    .btn-submit {
+      background: var(--green-mid); color: white; font-size: 1rem; font-weight: 700;
+      padding: 16px; border: none; border-radius: 50px; cursor: pointer;
+      transition: background 0.2s, transform 0.2s; margin-top: 4px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-submit:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .form-note { text-align: center; font-size: 0.78rem; color: #aaa; margin-top: 8px; }
+
+    /* FOOTER */
+    footer { background: #111; color: rgba(255,255,255,0.5); text-align: center; padding: 32px 24px; font-size: 0.85rem; line-height: 1.8; }
+    footer strong { color: rgba(255,255,255,0.8); }
+    .footer-divider { width: 40px; height: 2px; background: var(--gold); margin: 14px auto; border-radius: 2px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .form-section .section-inner { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 24px; }
+    }
+    @media (max-width: 480px) {
+      .stats-inner { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 16px 0; }
+      .stat-item:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-logo">PY<span>R</span>US</div>
+    <a href="tel:0636829976" class="nav-cta">📞 06 36 82 99 76</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🌳 Artisan local · Indre-et-Loire (37)</div>
+      <h1><span>PYRUS</span> — Élagueur professionnel<br>en Indre-et-Loire</h1>
+      <p class="hero-sub">Élagage · Abattage · Taille raisonnée · Entretien de jardin</p>
+      <div class="hero-zone">📍 Devis gratuit sous 24h — Intervention sur tout le département 37</div>
+      <div class="hero-ctas">
+        <a href="https://tally.so/r/eqPRoo" class="btn-primary" target="_blank">✉️ Demander un devis gratuit</a>
+        <a href="tel:0636829976" class="btn-secondary">📞 Appeler — 06 36 82 99 76</a>
+      </div>
+    </div>
+    <div class="hero-scroll">Découvrir</div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item"><span class="stat-num">24h</span><span class="stat-label">Délai devis</span></div>
+      <div class="stat-item"><span class="stat-num">37</span><span class="stat-label">Département couvert</span></div>
+      <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Devis gratuit</span></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section">
+    <div class="section-inner">
+      <span class="section-tag">Nos prestations</span>
+      <h2>Tous vos travaux arboricoles</h2>
+      <p class="section-sub">Du petit entretien au grand chantier, on intervient partout dans le 37.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🌳</div>
+          <h3>Élagage &amp; taille raisonnée</h3>
+          <p>Taille de formation, d'entretien et mise en sécurité de vos arbres.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🪓</div>
+          <h3>Abattage d'arbres</h3>
+          <p>Abattage directionnel ou en démontage, même en espace contraint.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🌿</div>
+          <h3>Entretien de jardin</h3>
+          <p>Tonte, désherbage, taille de haies et remise en état de jardins.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">✂️</div>
+          <h3>Débroussaillage</h3>
+          <p>Nettoyage de terrain, débroussaillage préventif et broyage de végétaux.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARGUMENTS -->
+  <section class="arguments">
+    <div class="section-inner">
+      <span class="section-tag">Pourquoi nous choisir</span>
+      <h2>Un service fiable, rapide et pro</h2>
+      <p class="section-sub" style="margin-bottom:44px">On s'occupe de tout, de la demande de devis jusqu'à la fin du chantier.</p>
+      <div class="args-grid">
+        <div class="arg-card"><div class="arg-icon">⚡</div><h4>Devis sous 24h</h4><p>Réponse rapide garantie. Pas d'attente, pas de relance nécessaire.</p></div>
+        <div class="arg-card"><div class="arg-icon">📍</div><h4>Tout l'Indre-et-Loire</h4><p>Tours, Luynes, Fondettes, Amboise, Chinon et tout le département 37.</p></div>
+        <div class="arg-card"><div class="arg-icon">🏆</div><h4>Artisan certifié</h4><p>Professionnel qualifié, matériel adapté, travail soigné et sécurisé.</p></div>
+        <div class="arg-card"><div class="arg-icon">💶</div><h4>Devis 100% gratuit</h4><p>Sans engagement, sans surprise sur la facture finale.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZONE -->
+  <section class="zone-section">
+    <div class="section-inner">
+      <span class="section-tag">Zone d'intervention</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--green-dark);margin-top:8px">On intervient partout dans le 37</h2>
+      <div class="zone-pills">
+        <span class="zone-pill">Tours</span><span class="zone-pill">Luynes</span><span class="zone-pill">Fondettes</span>
+        <span class="zone-pill">Joué-lès-Tours</span><span class="zone-pill">Amboise</span><span class="zone-pill">Chinon</span>
+        <span class="zone-pill">Langeais</span><span class="zone-pill">Vouvray</span><span class="zone-pill">Saint-Cyr-sur-Loire</span>
+        <span class="zone-pill">et tout l'Indre-et-Loire</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE -->
+  <section class="form-section" id="devis">
+    <div class="section-inner">
+      <div class="form-left">
+        <span class="section-tag">Devis gratuit</span>
+        <h2>Parlez-nous de votre projet</h2>
+        <p class="section-sub">Remplissez le formulaire, on vous rappelle sous 24h avec un devis personnalisé.</p>
+        <div class="trust-items">
+          <div class="trust-item"><div class="trust-check">✓</div>Réponse garantie sous 24h</div>
+          <div class="trust-item"><div class="trust-check">✓</div>Devis entièrement gratuit</div>
+          <div class="trust-item"><div class="trust-check">✓</div>Sans engagement de votre part</div>
+          <div class="trust-item"><div class="trust-check">✓</div>Intervention sur tout le 37</div>
+          <div class="trust-item"><div class="trust-check">✓</div>Particuliers et professionnels</div>
+        </div>
+      </div>
+      <div class="form-card">
+        <h3>Demandez votre devis</h3>
+        <p class="form-card-sub">Réponse sous 24h · Sans engagement</p>
+        <form action="https://formspree.io/f/xpwpyqkr" method="POST">
+          <div class="form-row">
+            <div>
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" name="prenom" placeholder="Jean" required />
+            </div>
+            <div>
+              <label for="telephone">Téléphone *</label>
+              <input type="tel" id="telephone" name="telephone" placeholder="06 00 00 00 00" required />
+            </div>
+          </div>
+          <div>
+            <label for="travaux">Type de travaux *</label>
+            <select id="travaux" name="travaux" required>
+              <option value="" disabled selected>Choisissez...</option>
+              <option>Élagage / Taille raisonnée</option>
+              <option>Abattage d'arbre</option>
+              <option>Entretien de jardin</option>
+              <option>Débroussaillage</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div>
+            <label for="ville">Votre ville</label>
+            <input type="text" id="ville" name="ville" placeholder="Tours, Luynes, Fondettes..." />
+          </div>
+          <div>
+            <label for="message">Description (optionnel)</label>
+            <textarea id="message" name="message" placeholder="Taille des arbres, urgence, accès..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">✉️ Envoyer ma demande de devis</button>
+          <p class="form-note">🔒 Données confidentielles · Aucun spam</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>Pyrus — Élagueur Professionnel</strong>
+    <div class="footer-divider"></div>
+    Indre-et-Loire (37) · Tours · Luynes · Fondettes · Amboise et tout le département<br>
+    <a href="tel:0636829976" style="color:var(--gold);text-decoration:none;font-weight:600">📞 06 36 82 99 76</a>
+  </footer>
+
+</body>
+</html>

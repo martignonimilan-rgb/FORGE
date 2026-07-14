@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE — Manuel Opérationnel</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --dark:#0a0e1a;--navy:#0f1628;--orange:#e8620a;--white:#ffffff;
+  --muted:#8892a4;--light:#eff2f7;--green:#16a34a;--lgreen:#f0fdf4;
+  --red:#dc2626;--lred:#fef2f2;--blue:#1d4ed8;--lblue:#eff6ff;
+  --amber:#d97706;--lamber:#fffbeb;--border:#e2e8f0;
+}
+body{font-family:'Inter',sans-serif;background:#f4f6fb;color:var(--dark);display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:280px;min-width:280px;background:var(--dark);
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+  display:flex;flex-direction:column;padding:24px 0;
+}
+.sidebar-logo{padding:0 20px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo-txt{font-size:1.4rem;font-weight:900;letter-spacing:-0.5px}
+.lo{color:var(--white)}.or{color:var(--orange)}
+.sidebar-sub{font-size:.7rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+.nav{flex:1;padding:16px 0}
+.nav-pack{padding:14px 20px 6px;font-size:.65rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;transition:.15s;text-decoration:none;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.05);border-left-color:rgba(232,98,10,.4)}
+.nav-item.active{background:rgba(232,98,10,.12);border-left-color:var(--orange)}
+.nav-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.08);color:var(--muted);font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-item.active .nav-num{background:var(--orange);color:white}
+.nav-label{font-size:.8rem;color:rgba(255,255,255,.7);line-height:1.3}
+.nav-item.active .nav-label{color:white;font-weight:600}
+.nav-divider{height:1px;background:rgba(255,255,255,.06);margin:10px 20px}
+
+/* ── MAIN ── */
+.main{flex:1;padding:40px 48px;max-width:900px}
+
+/* ── SECTION ── */
+.section{margin-bottom:64px;scroll-margin-top:32px}
+
+/* pack headers */
+.pack-header{
+  border-radius:16px;padding:28px 32px;margin-bottom:32px;
+  background:var(--dark);color:white;
+  display:flex;align-items:center;gap:20px;
+}
+.pack-icon{font-size:2rem}
+.pack-header h1{font-size:1.6rem;font-weight:800;letter-spacing:-.5px}
+.pack-header p{font-size:.9rem;color:var(--muted);margin-top:4px}
+.pack-badge{
+  margin-left:auto;background:rgba(232,98,10,.15);border:1px solid rgba(232,98,10,.35);
+  border-radius:8px;padding:6px 14px;font-size:.8rem;font-weight:700;color:var(--orange);white-space:nowrap
+}
+
+/* step card */
+.step{
+  background:white;border-radius:14px;border:1px solid var(--border);
+  margin-bottom:20px;overflow:hidden;
+}
+.step-head{
+  padding:18px 24px;display:flex;align-items:center;gap:14px;
+  border-bottom:1px solid var(--border);background:#fafbfd;
+}
+.step-num{
+  width:36px;height:36px;border-radius:10px;background:var(--orange);
+  color:white;font-size:1rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.step-title{font-size:1rem;font-weight:700;color:var(--dark)}
+.step-meta{margin-left:auto;display:flex;gap:8px;align-items:center}
+.tag{
+  font-size:.68rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;
+  border-radius:6px;padding:3px 9px;border:1px solid;
+}
+.tag-time{background:var(--lblue);border-color:#bfdbfe;color:var(--blue)}
+.tag-tool{background:var(--lamber);border-color:#fde68a;color:var(--amber)}
+.tag-client{background:var(--lgreen);border-color:#bbf7d0;color:var(--green)}
+
+.step-body{padding:20px 24px;display:flex;flex-direction:column;gap:20px}
+
+/* instruction list */
+.instructions{counter-reset:inst;display:flex;flex-direction:column;gap:0}
+.inst{
+  display:flex;gap:14px;padding:12px 0;
+  border-bottom:1px solid var(--border);
+  counter-increment:inst;
+}
+.inst:last-child{border-bottom:none;padding-bottom:0}
+.inst::before{
+  content:counter(inst);
+  min-width:26px;height:26px;border-radius:50%;
+  background:var(--light);color:var(--muted);
+  font-size:.72rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;flex-shrink:0;
+}
+.inst-text{font-size:.88rem;color:#374151;line-height:1.55}
+.inst-text strong{color:var(--dark);font-weight:600}
+.inst-text code{
+  background:var(--light);border:1px solid var(--border);
+  border-radius:4px;padding:1px 6px;font-size:.82rem;font-family:monospace;color:var(--orange);
+}
+.inst-text a{color:var(--blue);text-decoration:none;font-weight:500}
+
+/* info blocks */
+.info-block{
+  border-radius:10px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.ib-tip{background:var(--lgreen);border:1px solid #bbf7d0}
+.ib-warn{background:var(--lamber);border:1px solid #fde68a}
+.ib-err{background:var(--lred);border:1px solid #fecaca}
+.ib-info{background:var(--lblue);border:1px solid #bfdbfe}
+.ib-icon{font-size:1.1rem;margin-top:1px}
+.ib-text{font-size:.84rem;line-height:1.5;color:#374151}
+.ib-text strong{font-weight:700;display:block;margin-bottom:2px}
+
+/* script box */
+.script-box{
+  background:var(--navy);border-radius:10px;padding:18px 20px;
+  border-left:3px solid var(--orange);
+}
+.script-box .script-lbl{
+  font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--orange);margin-bottom:10px;
+}
+.script-box p{font-size:.84rem;color:rgba(255,255,255,.8);line-height:1.6;font-style:italic}
+.script-box p strong{color:white;font-style:normal}
+
+/* checklist */
+.checklist{display:flex;flex-direction:column;gap:6px}
+.chk{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:8px 12px;border-radius:8px;background:var(--light);
+  font-size:.84rem;color:#374151;line-height:1.4;
+}
+.chk::before{
+  content:'☐';font-size:1rem;color:var(--muted);margin-top:-1px;flex-shrink:0;
+}
+
+/* url pill */
+.url{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--lblue);border:1px solid #bfdbfe;
+  border-radius:6px;padding:4px 10px;font-size:.8rem;
+  color:var(--blue);font-weight:600;text-decoration:none;
+}
+
+/* 2-col layout */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* table */
+.info-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.info-table th{background:var(--dark);color:white;padding:9px 14px;text-align:left;font-weight:600;font-size:.78rem}
+.info-table td{padding:9px 14px;border-bottom:1px solid var(--border);color:#374151;vertical-align:top}
+.info-table tr:last-child td{border-bottom:none}
+.info-table tr:nth-child(even) td{background:#fafbfd}
+
+/* page top */
+.page-top{margin-bottom:40px}
+.page-top h1{font-size:2rem;font-weight:900;color:var(--dark);letter-spacing:-.5px}
+.page-top p{font-size:.95rem;color:var(--muted);margin-top:8px;line-height:1.6}
+.intro-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.intro-card{background:white;border:1px solid var(--border);border-radius:12px;padding:16px;border-top:3px solid var(--orange)}
+.intro-card h3{font-size:.85rem;font-weight:700;margin-bottom:4px}
+.intro-card p{font-size:.78rem;color:var(--muted);line-height:1.4}
+
+@media print{.sidebar{display:none}.main{max-width:100%;padding:20px}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-txt"><span class="lo">F</span><span class="or">O</span><span class="lo">RGE</span></div>
+    <div class="sidebar-sub">Manuel opérationnel</div>
+  </div>
+  <div class="nav">
+    <div class="nav-pack">Toutes formules</div>
+    <a class="nav-item active" href="#decouverte"><div class="nav-num">0</div><div class="nav-label">Appel découverte</div></a>
+
+    <div class="nav-divider"></div>
+    <div class="nav-pack">★ Starter — 149€/mois</div>
+    <a class="nav-item" href="#site"><div class="nav-num">1</div><div class="nav-label">Créer le site web</div></a>
+    <a class="nav-item" href="#domaine"><div class="nav-num">2</div><div class="nav-label">Nom de domaine</div></a>
+    <a class="nav-item" href="#google-business"><div class="nav-num">3</div><div class="nav-label">Fiche Google Business</div></a>
+    <a class="nav-item" href="#livraison"><div class="nav-num">4</div><div class="nav-label">Livraison client</div></a>
+
+    <div class="nav-divider"></div>
+    <div class="nav-pack">★★ Pro — 299€/mois</div>
+    <a class="nav-item" href="#ads-compte"><div class="nav-num">5</div><div class="nav-label">Compte Google Ads</div></a>
+    <a class="nav-item" href="#mots-cles"><div class="nav-num">6</div><div class="nav-label">Mots-clés & stratégie</div></a>
+    <a class="nav-item" href="#annonces"><div class="nav-num">7</div><div class="nav-label">Rédiger les annonces</div></a>
+    <a class="nav-item" href="#lancement"><div class="nav-num">8</div><div class="nav-label">Lancement campagnes</div></a>
+    <a class="nav-item" href="#rapport"><div class="nav-num">9</div><div class="nav-label">Rapport mensuel</div></a>
+
+    <div class="nav-divider"></div>
+    <div class="nav-pack">★★★ Domination — 499€/mois</div>
+    <a class="nav-item" href="#concurrence"><div class="nav-num">10</div><div class="nav-label">Analyse concurrentielle</div></a>
+    <a class="nav-item" href="#appel-strategie"><div class="nav-num">11</div><div class="nav-label">Appel stratégie mensuel</div></a>
+    <a class="nav-item" href="#planning"><div class="nav-num">12</div><div class="nav-label">Planning optimisations</div></a>
+
+    <div class="nav-divider"></div>
+    <div class="nav-pack">🤖 Add-ons IA</div>
+    <a class="nav-item" href="#agent-ia"><div class="nav-num">13</div><div class="nav-label">Agent IA sur le site</div></a>
+    <a class="nav-item" href="#agent-vocal"><div class="nav-num">14</div><div class="nav-label">Agent Vocal IA</div></a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+
+  <div class="page-top">
+    <h1>Manuel de livraison FORGE</h1>
+    <p>Ce guide te dit exactement quoi faire, étape par étape, pour chaque client signé.<br>Suis les fiches dans l'ordre — ne saute aucune étape.</p>
+    <div class="intro-cards">
+      <div class="intro-card">
+        <h3>Starter (149€)</h3>
+        <p>Étapes 0 → 4<br>Délai : 3 semaines</p>
+      </div>
+      <div class="intro-card">
+        <h3>Pro (299€)</h3>
+        <p>Étapes 0 → 9<br>Délai : 4 semaines</p>
+      </div>
+      <div class="intro-card">
+        <h3>Domination (499€)</h3>
+        <p>Étapes 0 → 12<br>Délai : 4 semaines + suivi</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 0 ══════════════════ -->
+  <div class="section" id="decouverte">
+    <div class="pack-header">
+      <div class="pack-icon">📞</div>
+      <div><h1>Étape 0 — Appel découverte</h1><p>Pour tous les packs — à faire avant de commencer quoi que ce soit</p></div>
+      <div class="pack-badge">Durée : 30 min</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">A</div>
+        <div class="step-title">Ce qu'il faut collecter pendant l'appel</div>
+        <div class="step-meta"><span class="tag tag-time">⏱ 30 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Objectif</strong> Tu dois ressortir de cet appel avec TOUTES les infos pour construire le site. Prends des notes sur la fiche client Word.</div></div>
+        <table class="info-table">
+          <tr><th>Info à obtenir</th><th>Question à poser</th></tr>
+          <tr><td><strong>Nom complet + nom commercial</strong></td><td>« Vous exercez sous quel nom ? Votre entreprise s'appelle comment ? »</td></tr>
+          <tr><td><strong>Téléphone professionnel</strong></td><td>« Quel numéro vos clients doivent appeler ? »</td></tr>
+          <tr><td><strong>Email contact</strong></td><td>« Un email où vous recevez les demandes ? »</td></tr>
+          <tr><td><strong>Zone d'intervention</strong></td><td>« Vous intervenez dans quelles villes ? Rayon de combien de km ? »</td></tr>
+          <tr><td><strong>Services proposés</strong></td><td>« Élagage, abattage, dessouchage, haies, tonte — lesquels vous faites ? »</td></tr>
+          <tr><td><strong>Service phare / différence</strong></td><td>« Qu'est-ce qui vous distingue des autres élagueurs de la zone ? »</td></tr>
+          <tr><td><strong>Années d'expérience / diplômes</strong></td><td>« Depuis combien d'années vous exercez ? Vous avez des certifications ? »</td></tr>
+          <tr><td><strong>Photos disponibles</strong></td><td>« Vous avez des photos de vos chantiers ? → demander envoi WhatsApp ou email »</td></tr>
+          <tr><td><strong>SIRET / statut</strong></td><td>« Vous êtes auto-entrepreneur ou société ? Votre SIRET ? » (pour Google Business)</td></tr>
+          <tr><td><strong>Avis Google existants ?</strong></td><td>« Vous avez déjà une fiche Google Business ou des avis Google ? »</td></tr>
+        </table>
+        <div class="script-box">
+          <div class="script-lbl">Script d'ouverture d'appel (Pauline)</div>
+          <p>« Bonjour <strong>[Prénom]</strong>, c'est Pauline de FORGE. Merci de me consacrer ce moment. L'objectif de cet appel c'est simple : que je comprenne bien votre activité pour qu'on crée quelque chose qui vous ressemble vraiment. J'ai une petite liste de questions, ça prend environ 20 minutes — vous êtes prêt ? »</p>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>À la fin de l'appel</strong> — Envoyer un récap email avec ce qu'on a dit, la date de livraison prévue, et rappeler que le setup de 299€ est à régler pour démarrer.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 1 ══════════════════ -->
+  <div class="section" id="site">
+    <div class="pack-header">
+      <div class="pack-icon">🌐</div>
+      <div><h1>Étape 1 — Créer le site web</h1><p>Starter · Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 3-4h</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Copier et personnaliser le template FORGE</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 Fichier index.html</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">📁</div><div class="ib-text"><strong>Le template</strong> est le fichier <code>index.html</code> de ton dossier FORGE. C'est lui que tu copies et modifies pour chaque client.</div></div>
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Duplique le fichier <code>index.html</code> dans un nouveau dossier au nom du client (ex: <code>CLIENTS/dupont-elagage/index.html</code>)</div></div>
+          <div class="inst"><div class="inst-text">Ouvre le fichier dans le Bloc-notes ou Notepad++. Fais <strong>Ctrl+H</strong> (Rechercher/Remplacer) pour remplacer chaque info FORGE par les infos du client en une fois.</div></div>
+          <div class="inst"><div class="inst-text">Remplace le <strong>nom de l'entreprise</strong> (cherche <code>FORGE</code> dans les sections texte du HTML, pas dans le CSS)</div></div>
+          <div class="inst"><div class="inst-text">Remplace le <strong>numéro de téléphone</strong> — il apparaît plusieurs fois (header, section contact, footer)</div></div>
+          <div class="inst"><div class="inst-text">Remplace la <strong>zone d'intervention</strong> dans la section héro et dans le texte de présentation</div></div>
+          <div class="inst"><div class="inst-text">Remplace la liste des <strong>services</strong> (élagage, abattage, etc.) dans la grille des métiers</div></div>
+          <div class="inst"><div class="inst-text">Remplace les <strong>stats</strong> (années d'expérience, nombre de clients, etc.) avec les vraies données du client</div></div>
+          <div class="inst"><div class="inst-text">Remplace l'<strong>email de contact</strong> dans le formulaire (cherche <code>pauline@forge-artisans.fr</code>)</div></div>
+          <div class="inst"><div class="inst-text"><strong>Photos</strong> : les images du site sont des placeholders. Pour l'instant tu peux garder les photos génériques — si le client envoie des photos, mets-les en ligne sur <a href="https://imgbb.com" target="_blank">imgbb.com</a> (gratuit) et remplace les URLs <code>src=""</code></div></div>
+        </div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Teste toujours</strong> en ouvrant le fichier dans Chrome avant de mettre en ligne. Vérifie que le numéro de téléphone est bon, que l'email est bon, et que le site s'affiche bien sur mobile (DevTools → F12 → icône téléphone).</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">2</div>
+        <div class="step-title">Mettre en ligne sur Netlify</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 netlify.com</span><span class="tag tag-time">⏱ 10 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Va sur <a href="https://app.netlify.com" target="_blank">app.netlify.com</a> → connecte-toi avec le compte FORGE</div></div>
+          <div class="inst"><div class="inst-text">Clique sur <strong>« Add new site »</strong> → <strong>« Deploy manually »</strong></div></div>
+          <div class="inst"><div class="inst-text">Glisse-dépose le dossier du client (qui contient <code>index.html</code>) dans la zone de dépôt</div></div>
+          <div class="inst"><div class="inst-text">Netlify génère une URL aléatoire du type <code>stellar-horse-abc.netlify.app</code>. Va dans <strong>Site configuration → General → Change project name</strong> et renomme en <code>dupont-elagage</code> (ou le nom du client)</div></div>
+          <div class="inst"><div class="inst-text">Note l'URL Netlify — tu en auras besoin pour connecter le domaine à l'étape suivante</div></div>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Pour mettre à jour le site plus tard</strong> : va sur Netlify → ton site → « Deploys » → glisse le nouveau dossier. Terminé.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 2 ══════════════════ -->
+  <div class="section" id="domaine">
+    <div class="pack-header">
+      <div class="pack-icon">🔗</div>
+      <div><h1>Étape 2 — Nom de domaine</h1><p>Starter · Pro · Domination</p></div>
+      <div class="pack-badge">~15€/an · Durée : 30 min</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Acheter le nom de domaine</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 ovhcloud.com</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Va sur <a href="https://www.ovhcloud.com/fr/domains/" target="_blank">ovhcloud.com</a> → recherche le domaine idéal pour le client. Format conseillé : <code>dupont-elagage-tours.fr</code> ou <code>elagage-dupont37.fr</code></div></div>
+          <div class="inst"><div class="inst-text">Choisis toujours le <code>.fr</code> (meilleur pour le référencement local en France). Coût : environ 7-15€/an.</div></div>
+          <div class="inst"><div class="inst-text">Achète le domaine <strong>depuis le compte FORGE</strong> (ou crée un compte OVH dédié). C'est FORGE qui gère le domaine — tu le "prêtes" au client tant qu'il est abonné.</div></div>
+          <div class="inst"><div class="inst-text">Note les identifiants OVH quelque part — tu en auras besoin pour modifier les DNS.</div></div>
+        </div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Important :</strong> si le client résilie, tu gardes le domaine (ou tu le lui transfères contre paiement de l'année en cours). Mentionne-le dans les CGV.</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">2</div>
+        <div class="step-title">Connecter le domaine à Netlify</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 OVH + Netlify</span><span class="tag tag-time">⏱ 15 min (+ 24h propagation)</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Sur Netlify → ton site client → <strong>Domain management → Add a domain</strong> → tape le domaine acheté</div></div>
+          <div class="inst"><div class="inst-text">Netlify va te donner 2 adresses de type <code>dns1.p01.nsone.net</code> et <code>dns2.p01.nsone.net</code>. Copie-les.</div></div>
+          <div class="inst"><div class="inst-text">Va sur OVH → ton domaine → <strong>Serveurs DNS</strong> → Modifier → colle les 2 adresses Netlify</div></div>
+          <div class="inst"><div class="inst-text">Attends 24-48h que la propagation se fasse. Ensuite le site sera accessible via le vrai domaine.</div></div>
+          <div class="inst"><div class="inst-text">Netlify active automatiquement le <strong>HTTPS (cadenas vert)</strong> — c'est inclus, rien à faire.</div></div>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Pour vérifier</strong> que la propagation est faite : tape le domaine dans Chrome. S'il affiche le site avec le cadenas vert → c'est bon.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 3 ══════════════════ -->
+  <div class="section" id="google-business">
+    <div class="pack-header">
+      <div class="pack-icon">📍</div>
+      <div><h1>Étape 3 — Fiche Google Business</h1><p>Starter · Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 1h + validation 3-7j</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Créer ou réclamer la fiche</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 business.google.com</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Deux cas :</strong> soit le client n'a pas de fiche (tu en crées une), soit il en a déjà une à son nom (tu demandes la gestion).</div></div>
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Va sur <a href="https://business.google.com" target="_blank">business.google.com</a> → connecte-toi avec un compte Google FORGE (ou crée un compte Google pour le client)</div></div>
+          <div class="inst"><div class="inst-text">Cherche d'abord le nom du client pour voir si une fiche existe déjà. Si oui → clique <strong>"Réclamer cette fiche"</strong>. Si non → <strong>"Ajouter votre entreprise"</strong></div></div>
+          <div class="inst"><div class="inst-text"><strong>Nom de l'entreprise</strong> : prénom + nom + activité. Ex : <em>"Dupont Élagage — Élagueur Tours"</em>. Pas d'abus de mots-clés.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Catégorie principale</strong> : recherche <em>"Entreprise d'élagage"</em> ou <em>"Service d'entretien d'arbres"</em></div></div>
+          <div class="inst"><div class="inst-text"><strong>Adresse</strong> : si le client travaille à domicile, il peut masquer l'adresse et cocher "zone d'intervention" à la place. Ajouter toutes les villes où il intervient.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Téléphone</strong> : le numéro professionnel du client</div></div>
+          <div class="inst"><div class="inst-text"><strong>Site web</strong> : l'URL du site qu'on vient de mettre en ligne</div></div>
+          <div class="inst"><div class="inst-text"><strong>Horaires</strong> : demande au client ses horaires réels. Ex : Lundi-Vendredi 7h-19h, Samedi 8h-12h</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">2</div>
+        <div class="step-title">Optimiser la fiche au maximum</div>
+        <div class="step-meta"><span class="tag tag-time">⏱ 30 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text"><strong>Description de l'entreprise</strong> (750 caractères max) : rédige un texte qui cite la ville principale, les services, les années d'expérience. Ex : <em>"Élagueur professionnel à Tours depuis 2010, [Prénom] intervient dans tout l'Indre-et-Loire pour l'élagage, l'abattage et l'entretien de vos arbres. Devis gratuit sous 24h."</em></div></div>
+          <div class="inst"><div class="inst-text"><strong>Services</strong> : ajoute chaque service dans l'onglet "Services" (élagage, abattage, dessouchage, taille de haies, débroussaillage). Tu peux mettre une description et un prix indicatif pour chaque.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Photos</strong> : ajoute AU MINIMUM 5 photos. Logo du client si disponible, photos de chantiers (avant/après idéalement), photo du client au travail. Format recommandé : JPG, au moins 720x720px.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Attributs</strong> : coche "Devis gratuit", "Artisan local", et tout ce qui correspond</div></div>
+          <div class="inst"><div class="inst-text"><strong>Première publication</strong> : publie un post dans "Actualités" du type : <em>"Besoin d'un élagueur sur Tours ? [Prénom] intervient rapidement — devis gratuit au [tel]"</em></div></div>
+        </div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Validation Google</strong> : Google va demander une vérification. Méthode la plus rapide = vidéo (filmer la façade ou le matériel pro). Parfois par carte postale (5-14 jours). Préviens le client que la fiche sera visible sous 3-7 jours.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 4 ══════════════════ -->
+  <div class="section" id="livraison">
+    <div class="pack-header">
+      <div class="pack-icon">🎁</div>
+      <div><h1>Étape 4 — Livraison client</h1><p>Starter · Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 30 min</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Email de livraison à envoyer au client</div>
+        <div class="step-meta"><span class="tag tag-client">📧 À envoyer au client</span></div>
+      </div>
+      <div class="step-body">
+        <div class="script-box">
+          <div class="script-lbl">Email de livraison type</div>
+          <p><strong>Objet : Votre site est en ligne ! 🎉</strong><br><br>
+          Bonjour [Prénom],<br><br>
+          Excellente nouvelle — votre présence en ligne est opérationnelle !<br><br>
+          ✅ Votre site web : <strong>[URL]</strong><br>
+          ✅ Votre fiche Google Business : en cours de validation (3-7 jours)<br><br>
+          Ce que vous pouvez faire dès maintenant :<br>
+          → Partagez votre site sur votre page Facebook si vous en avez une<br>
+          → Demandez à vos clients satisfaits de vous laisser un avis Google<br>
+          → Mettez l'URL sur vos cartes de visite, devis, et factures<br><br>
+          Je reste disponible pour toute question.<br><br>
+          Pauline — FORGE</p>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Remplis la fiche client Word</strong> (FORGE_FicheClient.docx) avec toutes les infos et identifiants. C'est ton garde-fou si quelque chose bugue dans 6 mois.</div></div>
+        <div class="checklist">
+          <div class="chk">Site en ligne et testé sur mobile</div>
+          <div class="chk">Domaine connecté et HTTPS actif</div>
+          <div class="chk">Fiche Google Business soumise à validation</div>
+          <div class="chk">Email de livraison envoyé au client</div>
+          <div class="chk">Fiche client Word complétée et sauvegardée</div>
+          <div class="chk">Prélèvement mensuel mis en place (virement ou CB)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 5 ══════════════════ -->
+  <div class="section" id="ads-compte">
+    <div class="pack-header">
+      <div class="pack-icon">📢</div>
+      <div><h1>Étape 5 — Compte Google Ads</h1><p>Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 45 min</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Créer ton compte Manager Google Ads (à faire une seule fois)</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 ads.google.com/manager</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Principe :</strong> FORGE possède un compte "Manager" (MCC). Chaque client a son propre compte Ads individuel lié au MCC FORGE. Le client paie Google directement avec sa propre carte. FORGE gère les campagnes depuis son Manager.</div></div>
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Va sur <a href="https://ads.google.com/home/tools/manager-accounts/" target="_blank">ads.google.com/manager</a> → crée un compte Manager avec l'email FORGE. C'est gratuit, c'est juste un tableau de bord.</div></div>
+          <div class="inst"><div class="inst-text">Dans ton Manager → <strong>"+" → "Créer un compte client"</strong>. C'est le compte du client. Nomme-le avec le nom du client : <em>"Dupont Élagage"</em></div></div>
+          <div class="inst"><div class="inst-text">Sélectionne le pays <strong>France</strong> et la devise <strong>EUR</strong></div></div>
+          <div class="inst"><div class="inst-text"><strong>Facturation</strong> : le compte client doit être lié à la <strong>carte bancaire du CLIENT</strong>. Envoie-lui un lien d'invitation et demande-lui de renseigner sa CB — ou fais-le avec lui au téléphone.</div></div>
+        </div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Ne jamais mettre la carte FORGE sur le compte d'un client.</strong> Si le client ne paie pas ses factures FORGE, au moins Google continue à prélever directement lui — pas toi.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 6 ══════════════════ -->
+  <div class="section" id="mots-cles">
+    <div class="pack-header">
+      <div class="pack-icon">🔍</div>
+      <div><h1>Étape 6 — Mots-clés & stratégie</h1><p>Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 1h</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Trouver les bons mots-clés</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 Google Keyword Planner</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Dans le compte Google Ads du client → menu <strong>Outils → Planificateur de mots-clés → Découvrir des mots-clés</strong></div></div>
+          <div class="inst"><div class="inst-text">Tape les termes de base : <em>"élagueur"</em>, <em>"élagage"</em>, <em>"abattage arbre"</em>, <em>"taille arbre"</em>. Google te suggère des dizaines de variantes avec le volume de recherche mensuel.</div></div>
+          <div class="inst"><div class="inst-text">Sélectionne les mots-clés les plus pertinents. Voici une base solide pour un élagueur :<br>
+          <code>élagueur [ville]</code> / <code>élagage [ville]</code> / <code>abattage arbre [ville]</code> / <code>taille arbre 37</code> / <code>élagueur pas cher [ville]</code> / <code>devis élagage gratuit</code></div></div>
+          <div class="inst"><div class="inst-text"><strong>Type de correspondance</strong> : utilise toujours <strong>Expression exacte</strong> [ ] ou <strong>Large modifié</strong> pour éviter de gaspiller le budget sur des requêtes hors-sujet.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Mots-clés négatifs à ajouter</strong> : <em>formation, emploi, matériel, location, tronçonneuse, école</em> — pour éviter que l'annonce apparaisse sur des recherches d'achat de matériel ou de formation.</div></div>
+        </div>
+        <table class="info-table">
+          <tr><th>Mots-clés prioritaires</th><th>Volume estimé (37)</th><th>Concurrence</th></tr>
+          <tr><td>élagueur Tours</td><td>100-500/mois</td><td>Moyenne</td></tr>
+          <tr><td>élagage Indre-et-Loire</td><td>100-500/mois</td><td>Faible</td></tr>
+          <tr><td>abattage arbre Tours</td><td>50-200/mois</td><td>Faible</td></tr>
+          <tr><td>élagueur [ville secondaire]</td><td>10-100/mois</td><td>Très faible</td></tr>
+          <tr><td>taille arbre 37</td><td>50-200/mois</td><td>Faible</td></tr>
+        </table>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Zone géographique</strong> : configure la campagne sur un rayon précis autour de la ville du client (ex: 30km autour de Tours). Ça évite de payer des clics de gens trop loin.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 7 ══════════════════ -->
+  <div class="section" id="annonces">
+    <div class="pack-header">
+      <div class="pack-icon">✏️</div>
+      <div><h1>Étape 7 — Rédiger les annonces</h1><p>Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 1h</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Structure d'une annonce Google Search</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 Dans Google Ads</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Une annonce Search</strong> = 3 titres (30 caractères max chacun) + 2 descriptions (90 caractères max chacune). Google les fait tourner dans différentes combinaisons.</div></div>
+        <div class="script-box">
+          <div class="script-lbl">Exemple d'annonce type (à adapter au nom du client)</div>
+          <p>
+          <strong>Titre 1 :</strong> Élagueur à Tours — Devis gratuit<br>
+          <strong>Titre 2 :</strong> Dupont Élagage — 15 ans d'expérience<br>
+          <strong>Titre 3 :</strong> Intervention rapide Indre-et-Loire<br><br>
+          <strong>Description 1 :</strong> Élagage, abattage, dessouchage — artisan certifié. Intervention rapide sur Tours et 37. Devis gratuit sous 24h.<br>
+          <strong>Description 2 :</strong> Crédit d'impôt 50% pour les particuliers. Plus de 200 chantiers réalisés. Appelez-nous dès maintenant.
+          </p>
+        </div>
+        <div class="instructions">
+          <div class="inst"><div class="inst-text"><strong>Extensions d'annonces</strong> : ajoute des extensions dans Google Ads pour occuper plus de place. Extension <em>Appel</em> (numéro visible directement), extension <em>Lieu</em> (adresse), extension <em>Liens annexes</em> (vers les pages services).</div></div>
+          <div class="inst"><div class="inst-text">Crée <strong>2 à 3 variantes d'annonces</strong> dans le même groupe d'annonces. Google teste automatiquement et garde la meilleure.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Page de destination</strong> : l'annonce doit pointer vers le site du client (pas la page d'accueil de FORGE). Assure-toi que le numéro de tél est bien visible en haut du site.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 8 ══════════════════ -->
+  <div class="section" id="lancement">
+    <div class="pack-header">
+      <div class="pack-icon">🚀</div>
+      <div><h1>Étape 8 — Lancement campagnes</h1><p>Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 30 min</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Paramètres de lancement</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 Google Ads</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text"><strong>Type de campagne</strong> : "Réseau de Recherche" uniquement (pas Display, pas Shopping, pas YouTube). C'est le plus efficace pour les artisans locaux.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Budget quotidien</strong> : si le client a un budget de 200€/mois → 200 ÷ 30 = <strong>6,70€/jour</strong>. Mets 7€/jour dans Google Ads.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Stratégie d'enchères</strong> : commence avec <em>"Maximiser les clics"</em> (Google optimise seul). Après 30 jours et suffisamment de conversions, tu peux passer à <em>"Maximiser les conversions"</em>.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Planification</strong> : programme les annonces uniquement pendant les heures d'ouverture du client (ex: Lun-Sam 7h-19h) pour éviter de payer des clics quand personne ne répond.</div></div>
+          <div class="inst"><div class="inst-text">Lance la campagne → attends 48h (Google a besoin de temps pour diffuser) → vérifie que les annonces apparaissent en cherchant les mots-clés depuis Chrome en navigation privée.</div></div>
+        </div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Préviens le client</strong> qu'il va recevoir une facture Google sous 30 jours (ou quand le budget atteint 500€). C'est normal — c'est lui qui paie ses pubs directement à Google.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 9 ══════════════════ -->
+  <div class="section" id="rapport">
+    <div class="pack-header">
+      <div class="pack-icon">📊</div>
+      <div><h1>Étape 9 — Rapport mensuel</h1><p>Pro · Domination</p></div>
+      <div class="pack-badge">Durée : 20 min/mois</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Ce que le rapport doit contenir</div>
+        <div class="step-meta"><span class="tag tag-client">📧 À envoyer au client</span><span class="tag tag-time">⏱ Le 1er du mois</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Ouvre Google Ads → <strong>Rapports → Vue d'ensemble</strong>. Filtre sur le mois précédent. Note les chiffres clés.</div></div>
+          <div class="inst"><div class="inst-text">Dans ton email mensuel, inclus :<br>
+          <strong>① Impressions</strong> (combien de fois l'annonce a été vue)<br>
+          <strong>② Clics</strong> (combien ont cliqué)<br>
+          <strong>③ Taux de clic (CTR)</strong><br>
+          <strong>④ Coût total du mois</strong><br>
+          <strong>⑤ Coût par clic moyen</strong><br>
+          <strong>⑥ Optimisation faite ce mois</strong> (ex: "ajout de 3 mots-clés négatifs, amélioration du titre 2")</div></div>
+          <div class="inst"><div class="inst-text">Ajoute toujours une <strong>phrase d'action</strong> : <em>"Le mois prochain je teste une nouvelle annonce axée sur le crédit d'impôt — ça devrait augmenter le CTR."</em></div></div>
+        </div>
+        <div class="script-box">
+          <div class="script-lbl">Email rapport type</div>
+          <p><strong>Objet : Votre rapport Google Ads — [Mois]</strong><br><br>
+          Bonjour [Prénom],<br><br>
+          Voici le bilan de vos campagnes en [mois] :<br><br>
+          📊 <strong>Impressions :</strong> [X] (votre annonce vue X fois)<br>
+          👆 <strong>Clics :</strong> [X] (X personnes ont visité votre site)<br>
+          💶 <strong>Dépense pub :</strong> [X]€ (prélevé par Google sur votre carte)<br>
+          💰 <strong>Coût par clic :</strong> [X]€<br><br>
+          Ce mois-ci j'ai : [action réalisée]<br>
+          Le mois prochain : [action prévue]<br><br>
+          Une question ? Je suis disponible.<br>
+          Pauline — FORGE</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 10 ══════════════════ -->
+  <div class="section" id="concurrence">
+    <div class="pack-header">
+      <div class="pack-icon">🔭</div>
+      <div><h1>Étape 10 — Analyse concurrentielle</h1><p>Domination uniquement</p></div>
+      <div class="pack-badge">Durée : 2h (1 seule fois)</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Identifier et analyser les concurrents locaux</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 Google + Google Ads</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Ouvre Chrome en navigation privée. Recherche <em>"élagueur [ville du client]"</em>. Note les 3-5 premiers résultats — ce sont les concurrents directs.</div></div>
+          <div class="inst"><div class="inst-text">Pour chaque concurrent, note : ont-ils des annonces payantes ? Un site pro ? Combien d'avis Google ? Quels services mettent-ils en avant ?</div></div>
+          <div class="inst"><div class="inst-text">Dans Google Ads → <strong>Outils → Aperçu des enchères</strong> : tu vois quels concurrents font de la pub sur les mêmes mots-clés que ton client, et leur part de voix.</div></div>
+          <div class="inst"><div class="inst-text">Identifie les <strong>failles de la concurrence</strong> : manque de photos, pas de prix, pas de crédit d'impôt mentionné, pas de mobile, etc. Ce sont des angles d'attaque pour tes annonces.</div></div>
+          <div class="inst"><div class="inst-text">Rédige un mini-rapport de 1 page à partager avec le client : <em>"Voici qui fait quoi dans votre zone, et comment on va les dépasser."</em></div></div>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Argument fort pour le client Domination</strong> : montrer que ses concurrents font de la pub et que lui va les surpasser — ça justifie l'investissement.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 11 ══════════════════ -->
+  <div class="section" id="appel-strategie">
+    <div class="pack-header">
+      <div class="pack-icon">🗣️</div>
+      <div><h1>Étape 11 — Appel stratégie mensuel</h1><p>Domination uniquement</p></div>
+      <div class="pack-badge">1h/mois</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Ordre du jour type de l'appel mensuel</div>
+        <div class="step-meta"><span class="tag tag-client">📞 Appel client</span><span class="tag tag-time">⏱ 45-60 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text"><strong>5 min — Bilan humain</strong> : "Comment ça s'est passé ce mois ? Vous avez eu beaucoup de demandes ? Des chantiers sympas ?"</div></div>
+          <div class="inst"><div class="inst-text"><strong>15 min — Revue des chiffres Google Ads</strong> : tu partages ton écran (ou tu envoies le rapport avant) et tu commentes les stats. Explique simplement ce que signifie chaque chiffre.</div></div>
+          <div class="inst"><div class="inst-text"><strong>15 min — Ce qui a bien marché / ce qu'on ajuste</strong> : présente les tests du mois et les conclusions. Ex : "Le titre avec crédit d'impôt a mieux marché — on garde."</div></div>
+          <div class="inst"><div class="inst-text"><strong>15 min — Plan du mois suivant</strong> : quelles nouvelles annonces ? Nouveau service à pousser (ex: dessouchage en hiver) ? Nouveau secteur à cibler ?</div></div>
+          <div class="inst"><div class="inst-text"><strong>5 min — Questions du client</strong> : "Vous avez des questions ? Des retours de vos clients qu'on pourrait utiliser dans les annonces ?"</div></div>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Envoi avant l'appel :</strong> partage le rapport 24h avant pour que le client arrive préparé. Il se sentira impliqué et la relation sera plus solide.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 12 ══════════════════ -->
+  <div class="section" id="planning">
+    <div class="pack-header">
+      <div class="pack-icon">📅</div>
+      <div><h1>Étape 12 — Planning optimisations 3 mois</h1><p>Domination uniquement</p></div>
+      <div class="pack-badge">À faire au mois 1</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num">1</div>
+        <div class="step-title">Planning type sur 3 mois</div>
+        <div class="step-meta"><span class="tag tag-client">📋 À partager avec le client</span></div>
+      </div>
+      <div class="step-body">
+        <table class="info-table">
+          <tr><th>Mois</th><th>Axe principal</th><th>Actions concrètes</th></tr>
+          <tr><td><strong>Mois 1</strong></td><td>Lancer & apprendre</td><td>Campagnes lancées, data collectée, premiers ajustements des mots-clés négatifs</td></tr>
+          <tr><td><strong>Mois 2</strong></td><td>Optimiser le CTR</td><td>Test de 3 variantes d'annonces, ajustement des enchères par tranche horaire, optimisation de la page de destination</td></tr>
+          <tr><td><strong>Mois 3</strong></td><td>Élargir & dominer</td><td>Extension vers nouvelles villes, push sur service saisonnier (ex: taille haies au printemps), bilan 3 mois complet</td></tr>
+        </table>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Pense à la saisonnalité</strong> : l'élagage est très demandé mars-mai et septembre-novembre. Augmente les budgets pub ces mois-là. En été et hiver, tu peux baisser légèrement.</div></div>
+        <div class="checklist">
+          <div class="chk">Planning partagé avec le client dès la signature</div>
+          <div class="chk">Calendrier d'appels mensuels fixé à l'avance</div>
+          <div class="chk">Budgets pub ajustés selon la saisonnalité prévue</div>
+          <div class="chk">Bilan trimestriel prévu (résultats vs objectifs)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- ══════════════════ ÉTAPE 13 ══════════════════ -->
+  <div class="section" id="agent-ia">
+    <div class="pack-header" style="background:linear-gradient(135deg,#1e1b4b,#2e1065);">
+      <div class="pack-icon">🤖</div>
+      <div><h1>Étape 13 — Agent IA sur le site</h1><p>Add-on disponible sur tous les packs — +69€/mois</p></div>
+      <div class="pack-badge" style="border-color:rgba(167,139,250,.4);color:#a78bfa;background:rgba(139,92,246,.15);">Durée setup : 2-3h</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#7c3aed;">1</div>
+        <div class="step-title">Créer le compte Tidio (outil recommandé)</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 tidio.com</span><span class="tag tag-time">⏱ 15 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Outil choisi : Tidio.</strong> Interface en français, IA intégrée, s'intègre sur n'importe quel site HTML avec une seule ligne de code. Plan payant : ~29€/mois → tu factures 69€ → 40€ de marge nette par client.</div></div>
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Va sur <a href="https://www.tidio.com" target="_blank">tidio.com</a> → <strong>Start free</strong>. Crée un compte avec l'email FORGE. Un compte Tidio peut gérer plusieurs sites clients.</div></div>
+          <div class="inst"><div class="inst-text">Crée un <strong>nouveau projet</strong> pour le client (bouton "+" dans le menu). Nomme-le avec le nom du client : <em>Dupont Élagage</em>.</div></div>
+          <div class="inst"><div class="inst-text">Dans <strong>Paramètres → Apparence</strong> : mets les couleurs du site du client (couleur principale, couleur du bouton). Ça doit matcher son site.</div></div>
+          <div class="inst"><div class="inst-text">Dans <strong>Paramètres → Informations</strong> : mets le nom de l'entreprise du client et son logo si disponible.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#7c3aed;">2</div>
+        <div class="step-title">Configurer les réponses automatiques de l'agent</div>
+        <div class="step-meta"><span class="tag tag-time">⏱ 1h</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Dans Tidio</strong>, va dans <strong>Automatisations → Chatbots → Créer un chatbot</strong>. Tu vas construire un arbre de conversation visuel (blocs à relier). Voici la structure à reproduire.</div></div>
+
+        <div class="script-box" style="background:#1e1b4b;border-left-color:#a78bfa;">
+          <div class="script-lbl" style="color:#a78bfa;">Structure du chatbot — à reproduire dans Tidio</div>
+          <p>
+          <strong>🟣 Message d'accueil (déclenché après 5 sec sur la page)</strong><br>
+          « Bonjour ! Je suis l'assistant de [Prénom Artisan]. Vous avez un projet d'élagage ou d'abattage ? Je peux vous aider ! »<br><br>
+
+          <strong>↓ Boutons de réponse rapide :</strong><br>
+          [ Demander un devis ]  [ Urgence — branche dangereuse ]  [ Autre question ]<br><br>
+
+          <strong>🟣 Branche "Demander un devis"</strong><br>
+          « Super ! Pour vous préparer un devis, j'ai besoin de quelques infos. »<br>
+          → Question 1 : « Quel type de travaux ? » → [ Élagage ] [ Abattage ] [ Dessouchage ] [ Haies ] [ Autre ]<br>
+          → Question 2 : « Dans quelle ville ? » (champ texte libre)<br>
+          → Question 3 : « C'est urgent ? » → [ Oui, dans la semaine ] [ Non, dans le mois ]<br>
+          → Collecte email/tel : « Votre numéro pour qu'on vous rappelle ? »<br>
+          → Message final : « Parfait ! [Prénom] vous rappelle sous 24h. Bonne journée ! »<br><br>
+
+          <strong>🟣 Branche "Urgence"</strong><br>
+          « Je comprends, c'est prioritaire ! Appelez directement [Prénom] au [numéro] — il intervient en urgence dans le 37. »<br><br>
+
+          <strong>🟣 Branche "Autre question"</strong><br>
+          « Bien sûr, posez votre question — je fais de mon mieux pour répondre ! »<br>
+          (l'IA Tidio prend le relais en langage naturel)<br><br>
+
+          <strong>🟣 Si aucune réponse après 30 sec d'inactivité</strong><br>
+          « Vous avez des questions ? Je suis là ! Ou laissez-moi votre numéro, [Prénom] vous rappelle. »
+          </p>
+        </div>
+
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Active "Lyro IA"</strong> dans Tidio (leur moteur IA). En lui donnant le texte du site du client comme base de connaissance, il pourra répondre à des questions libres : tarifs, zone d'intervention, crédit d'impôt. C'est automatique.</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#7c3aed;">3</div>
+        <div class="step-title">Connecter la prise de RDV (Cal.com)</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 cal.com</span><span class="tag tag-time">⏱ 30 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Va sur <a href="https://cal.com" target="_blank">cal.com</a> → crée un compte gratuit pour le client. Connecte-le à son <strong>Google Agenda</strong>.</div></div>
+          <div class="inst"><div class="inst-text">Crée un type d'événement : <em>"Rappel devis élagage"</em> — durée 20 min, créneaux disponibles à définir avec le client (ex: Lun-Ven 8h-18h, par tranches de 30 min).</div></div>
+          <div class="inst"><div class="inst-text">Copie le lien de réservation Cal.com. Dans Tidio, à la fin du chatbot "Demander un devis", ajoute un bouton <strong>"Choisir mon créneau"</strong> qui ouvre ce lien.</div></div>
+          <div class="inst"><div class="inst-text">Le client reçoit automatiquement un email de confirmation + rappel avant le RDV. Lui n'a rien à faire.</div></div>
+        </div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Important :</strong> demande au client de bloquer ses jours de chantier dans Google Agenda — Cal.com détecte automatiquement les indisponibilités et ne propose pas ces créneaux.</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#7c3aed;">4</div>
+        <div class="step-title">Intégrer le widget sur le site du client</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 index.html du client</span><span class="tag tag-time">⏱ 5 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Dans Tidio → <strong>Paramètres → Installation → HTML</strong>. Tidio te donne un snippet de code de 3 lignes.</div></div>
+          <div class="inst"><div class="inst-text">Colle ce code juste <strong>avant la balise <code>&lt;/body&gt;</code></strong> du fichier <code>index.html</code> du client.</div></div>
+          <div class="inst"><div class="inst-text">Redéploie le site sur Netlify (glisse-dépose le dossier mis à jour).</div></div>
+          <div class="inst"><div class="inst-text">Teste : ouvre le site du client dans Chrome en navigation privée — la bulle de chat doit apparaître après 5 secondes en bas à droite.</div></div>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>RGPD :</strong> Tidio intègre une bannière de consentement automatique. Assure-toi qu'elle est activée dans Paramètres → Confidentialité. Et ajoute une ligne sur le chatbot dans les mentions légales du site client.</div></div>
+        <div class="checklist">
+          <div class="chk">Compte Tidio créé et configuré aux couleurs du client</div>
+          <div class="chk">Chatbot construit et testé — les 3 branches fonctionnent</div>
+          <div class="chk">Lyro IA activé avec le contenu du site comme base</div>
+          <div class="chk">Cal.com connecté à Google Agenda du client</div>
+          <div class="chk">Widget intégré dans le site + redéployé sur Netlify</div>
+          <div class="chk">Test complet en navigation privée — RDV test pris avec succès</div>
+          <div class="chk">Mentions légales du site mises à jour (chatbot + cookies)</div>
+          <div class="chk">Client informé : lui montrer comment voir les leads dans Tidio</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════ ÉTAPE 14 ══════════════════ -->
+  <div class="section" id="agent-vocal">
+    <div class="pack-header" style="background:linear-gradient(135deg,#0c1a2e,#0e2a3d);">
+      <div class="pack-icon">📞</div>
+      <div><h1>Étape 14 — Agent Vocal IA</h1><p>Add-on disponible sur tous les packs — +99€/mois</p></div>
+      <div class="pack-badge" style="border-color:rgba(34,211,238,.4);color:#22d3ee;background:rgba(8,145,178,.15);">Durée setup : 3-4h</div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#0e7490;">1</div>
+        <div class="step-title">Créer le compte Vapi.ai</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 vapi.ai</span><span class="tag tag-time">⏱ 20 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Outil : Vapi.ai.</strong> Plateforme d'agents vocaux IA, supporte le français, voix naturelle. Facturation à la minute d'appel (~0,08€/min). Pour un élagueur avec ~10 appels/jour de 2 min en moyenne → ~50€/mois de coût réel. Tu factures 99€ → ~49€ de marge nette.</div></div>
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Va sur <a href="https://vapi.ai" target="_blank">vapi.ai</a> → <strong>Sign up</strong>. Crée un compte FORGE. Ajoute un moyen de paiement (tu seras facturé à la consommation).</div></div>
+          <div class="inst"><div class="inst-text">Dans le dashboard → <strong>Assistants → Create Assistant</strong>. C'est ici que tu configures le cerveau de l'agent vocal du client.</div></div>
+          <div class="inst"><div class="inst-text"><strong>Choix de la voix :</strong> dans l'onglet Voice, sélectionne un provider. <strong>ElevenLabs</strong> donne les voix les plus naturelles en français. Cherche une voix féminine française — teste-en plusieurs et choisis la plus naturelle.</div></div>
+          <div class="inst"><div class="inst-text">Dans <strong>Model</strong>, sélectionne <code>GPT-4o</code> ou <code>Claude</code> comme LLM — c'est le cerveau de la conversation. GPT-4o est recommandé pour la réactivité vocale.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#0e7490;">2</div>
+        <div class="step-title">Rédiger le prompt de l'agent (le script qu'il suit)</div>
+        <div class="step-meta"><span class="tag tag-time">⏱ 1h</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Le "System Prompt"</strong> dans Vapi, c'est l'instruction donnée à l'IA. C'est toi qui l'écris une fois par client — elle définit comment l'agent se comporte, ce qu'il dit, et ce qu'il évite.</div></div>
+        <div class="script-box" style="background:#0c1a2e;border-left-color:#22d3ee;">
+          <div class="script-lbl" style="color:#22d3ee;">System Prompt à coller dans Vapi — à adapter au nom du client</div>
+          <p>
+          Tu es l'assistant vocal de <strong>[Prénom] [Nom]</strong>, élagueur professionnel basé à <strong>[Ville]</strong>, en Indre-et-Loire.<br><br>
+          Ton rôle : accueillir les personnes qui appellent quand [Prénom] ne peut pas répondre (il est en chantier), collecter les informations sur leur demande, et organiser un rappel ou un rendez-vous.<br><br>
+          <strong>Tu dois :</strong><br>
+          - Te présenter comme "l'assistant de [Prénom]"<br>
+          - Parler en français, avec un ton chaleureux et professionnel<br>
+          - Poser UNE question à la fois (pas plusieurs d'un coup)<br>
+          - Collecter : type de travaux, ville d'intervention, urgence, prénom et numéro de rappel<br>
+          - Proposer un créneau de rappel parmi : [liste des créneaux dispo du client]<br>
+          - Terminer en confirmant que [Prénom] rappellera à l'heure convenue<br><br>
+          <strong>Tu ne dois pas :</strong><br>
+          - Donner de prix (dire "je laisse [Prénom] vous faire un devis précis sur place")<br>
+          - Promettre une intervention le jour même sans confirmation<br>
+          - Parler d'autre chose que l'activité d'élagage et d'entretien d'arbres<br><br>
+          <strong>Zone d'intervention :</strong> [villes et communes du client]<br>
+          <strong>Services proposés :</strong> élagage, abattage, dessouchage, taille de haies, débroussaillage<br>
+          <strong>Numéro direct si urgence :</strong> [numéro du client]
+          </p>
+        </div>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Teste en appelant le numéro Vapi</strong> toi-même avant de livrer au client. Fais 3-4 scénarios différents : demande de devis normale, urgence, question sur les prix, appel d'un concurrent. L'agent doit gérer chaque cas proprement.</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#0e7490;">3</div>
+        <div class="step-title">Obtenir un numéro de téléphone pour l'agent</div>
+        <div class="step-meta"><span class="tag tag-tool">🛠 Vapi → Phone Numbers</span><span class="tag tag-time">⏱ 10 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="instructions">
+          <div class="inst"><div class="inst-text">Dans Vapi → <strong>Phone Numbers → Buy Phone Number</strong>. Choisis un numéro français (+33). Coût : ~2$/mois. Ce numéro sera la destination du renvoi d'appel.</div></div>
+          <div class="inst"><div class="inst-text">Associe ce numéro à l'assistant que tu viens de créer pour le client.</div></div>
+          <div class="inst"><div class="inst-text">Configure les <strong>notifications post-appel</strong> dans Vapi → webhook ou email : à la fin de chaque appel, Vapi peut envoyer un résumé automatique (transcription + infos clés) par email ou webhook vers un SMS.</div></div>
+          <div class="inst"><div class="inst-text">Pour les SMS de notification au client, connecte via <strong>Make.com</strong> (anciennement Integromat, plan gratuit) : Vapi déclenche un webhook → Make envoie un SMS au client via Twilio ou Free Mobile API.</div></div>
+        </div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Alternative plus simple :</strong> configure Vapi pour envoyer la transcription de l'appel par email au client après chaque appel. Moins immédiat qu'un SMS, mais zéro configuration supplémentaire et gratuit.</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head">
+        <div class="step-num" style="background:#0e7490;">4</div>
+        <div class="step-title">Activer le renvoi d'appel sur le mobile du client</div>
+        <div class="step-meta"><span class="tag tag-client">📱 À faire avec le client</span><span class="tag tag-time">⏱ 5 min</span></div>
+      </div>
+      <div class="step-body">
+        <div class="info-block ib-info"><div class="ib-icon">💡</div><div class="ib-text"><strong>Le renvoi conditionnel</strong> = les appels partent vers l'IA seulement quand le client ne répond pas (occupé, hors réseau, ou pas de réponse après 3 sonneries). Son numéro habituel ne change pas.</div></div>
+        <table class="info-table">
+          <tr><th>Opérateur</th><th>Code à taper sur le mobile du client</th><th>Pour annuler</th></tr>
+          <tr><td><strong>Orange / Sosh</strong></td><td><code>**61*+33XXXXXXXXX*11*20#</code> puis Appel</td><td><code>##61#</code></td></tr>
+          <tr><td><strong>SFR / RED</strong></td><td><code>**61*+33XXXXXXXXX*11*20#</code> puis Appel</td><td><code>##61#</code></td></tr>
+          <tr><td><strong>Bouygues / B&You</strong></td><td><code>**61*+33XXXXXXXXX*11*20#</code> puis Appel</td><td><code>##61#</code></td></tr>
+          <tr><td><strong>Free Mobile</strong></td><td>Via l'app Free ou espace client → Renvoi d'appel</td><td>Même app</td></tr>
+        </table>
+        <div class="info-block ib-tip"><div class="ib-icon">✅</div><div class="ib-text"><strong>Remplace <code>+33XXXXXXXXX</code></strong> par le numéro Vapi que tu as acheté (format international, ex: +33612345678). Le 20 à la fin = 20 secondes avant renvoi (~3 sonneries).</div></div>
+        <div class="info-block ib-warn"><div class="ib-icon">⚠️</div><div class="ib-text"><strong>Test final obligatoire :</strong> appelle le numéro du client depuis un autre téléphone, ne décroche pas. L'agent Vapi doit décrocher après 3 sonneries et se présenter correctement. Si ça marche → livré.</div></div>
+        <div class="checklist">
+          <div class="chk">Compte Vapi créé, assistant configuré avec le bon prompt</div>
+          <div class="chk">Voix française naturelle choisie et testée</div>
+          <div class="chk">Numéro de téléphone Vapi acheté et associé à l'assistant</div>
+          <div class="chk">Notifications post-appel configurées (email ou SMS)</div>
+          <div class="chk">Renvoi d'appel activé sur le mobile du client</div>
+          <div class="chk">Test complet : appel → 3 sonneries → IA décroche → conversation → résumé reçu</div>
+          <div class="chk">Client formé : comment voir les transcriptions dans Vapi</div>
+          <div class="chk">Client informé : comment désactiver le renvoi s'il le souhaite</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+// Active sidebar item based on scroll
+const sections = document.querySelectorAll('.section');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const id = entry.target.id;
+      const activeNav = document.querySelector(`.nav-item[href="#${id}"]`);
+      if (activeNav) activeNav.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

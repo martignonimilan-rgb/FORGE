@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Questions fréquentes | FORGE</title>
+  <link rel="icon" href="forge-logo-icon.svg" type="image/svg+xml" />
+  <link rel="shortcut icon" href="forge-logo-icon.svg" />
+  <meta name="description" content="Toutes les réponses à vos questions sur FORGE : site web, Google Ads, délais, tarifs et plus encore." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0e1a;
+      --bg2: #0e1220;
+      --bg3: #121828;
+      --border: rgba(255,255,255,0.07);
+      --border-blue: rgba(100,130,255,0.12);
+      --orange: #e8620a;
+      --orange-light: #ff7a20;
+      --orange-dim: rgba(232,98,10,0.10);
+      --text: #ffffff;
+      --text-muted: rgba(255,255,255,0.55);
+      --text-dim: rgba(255,255,255,0.30);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: linear-gradient(160deg, #0a0e1a 0%, #0d0d0d 100%);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 40px;
+      background: rgba(10,14,26,0.92);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border-blue);
+    }
+    .nav-logo {
+      font-size: 1.4rem; font-weight: 900; color: #fff;
+      letter-spacing: 6px; text-decoration: none;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-back {
+      color: var(--text-muted); text-decoration: none; font-size: 0.88rem;
+      font-weight: 500; transition: color 0.2s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-back:hover { color: #fff; }
+
+    /* PAGE */
+    .page-wrap {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 140px 40px 100px;
+    }
+
+    .page-tag {
+      display: inline-block;
+      background: var(--orange-dim);
+      color: var(--orange);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .intro {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 64px;
+      max-width: 560px;
+    }
+
+    /* CATEGORIES */
+    .faq-category {
+      margin-bottom: 56px;
+    }
+
+    .faq-category-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .faq-category-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ACCORDION */
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 24px 0;
+      text-align: left;
+    }
+
+    .faq-question-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+
+    .faq-question:hover .faq-question-text {
+      color: var(--orange-light);
+    }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s, transform 0.3s;
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .faq-question[aria-expanded="true"] .faq-icon {
+      background: var(--orange-dim);
+      border-color: var(--orange);
+      color: var(--orange);
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+
+    .faq-answer-inner {
+      padding-bottom: 24px;
+    }
+
+    .faq-answer-inner p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .faq-answer-inner p:last-child { margin-bottom: 0; }
+
+    .faq-answer-inner strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .faq-answer-inner .highlight {
+      display: inline-block;
+      background: var(--orange-dim);
+      border-left: 3px solid var(--orange);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-top: 8px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* CTA BOTTOM */
+    .cta-block {
+      margin-top: 72px;
+      background: var(--bg2);
+      border: 1px solid var(--border-blue);
+      border-radius: 16px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .cta-block h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .cta-block p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 28px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.3px;
+    }
+    .cta-btn:hover { background: var(--orange-light); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      margin-top: 80px;
+      padding: 40px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .footer-logo {
+      font-size: 1.2rem; font-weight: 900; letter-spacing: 6px;
+      margin-bottom: 8px;
+    }
+    .footer-logo span { color: var(--orange); }
+    footer p { color: var(--text-dim); font-size: 0.80rem; margin-bottom: 6px; }
+    footer a { color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--orange); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">F<span>O</span>RGE</a>
+    <div style="display:flex;gap:24px;align-items:center;">
+      <a href="tarifs.html" class="nav-back">Tarifs</a>
+      <a href="index.html" class="nav-back">← Retour au site</a>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="page-wrap">
+
+    <div class="page-tag">FAQ</div>
+    <h1>Questions fréquentes</h1>
+    <p class="intro">Tout ce que vous voulez savoir avant de nous contacter. Si votre question n'est pas là, écrivez-nous — on répond sous 24h.</p>
+
+    <!-- CATÉGORIE 1 : GÉNÉRAL -->
+    <div class="faq-category">
+      <div class="faq-category-label">Général</div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">C'est quoi exactement FORGE ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>FORGE est une agence digitale spécialisée pour les artisans et indépendants. On s'occupe de votre visibilité sur internet de A à Z : site web professionnel, fiche Google, publicités Google Ads et stratégie digitale locale.</p>
+            <p>Notre mission est simple — que votre téléphone sonne avec de bons clients, sans que vous ayez à vous préoccuper du digital.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Est-ce que FORGE travaille avec mon type de métier ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Oui. On travaille avec tous les artisans du bâtiment et les indépendants : plombiers, électriciens, menuisiers, peintres, maçons, carreleurs, jardiniers, élageurs, piscinistes, couvreurs, serruriers, et bien d'autres.</p>
+            <p>Si vous avez un savoir-faire et des clients à trouver dans votre zone, FORGE peut vous aider.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Vous travaillez dans toute la France ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Oui, on travaille à 100% à distance. Nos échanges se font par téléphone, WhatsApp ou visio. Peu importe où vous êtes en France, on peut vous accompagner.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CATÉGORIE 2 : SITE WEB -->
+    <div class="faq-category">
+      <div class="faq-category-label">Site web</div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Combien de temps pour avoir mon site en ligne ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>En général, <strong>7 jours ouvrés</strong> après votre validation du contenu. Pas de délais de 3 mois comme avec une agence traditionnelle.</p>
+            <p>On travaille vite et bien : un appel pour comprendre votre activité, on rédige, on design, on livre.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Je dois m'y connaître en informatique ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Absolument pas. Vous n'avez rien à installer, rien à apprendre. On s'occupe de tout — hébergement, nom de domaine, mise en ligne, mises à jour.</p>
+            <p>Si vous voulez changer un texte ou une photo, vous nous envoyez un message et c'est fait.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Est-ce que je reste propriétaire de mon site ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Oui. Le site et le nom de domaine vous appartiennent. Si vous décidez un jour de partir, vous repartez avec tout.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Mon site sera-t-il visible sur Google ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>C'est notre priorité. Chaque site est conçu avec les bonnes bases SEO (balises, vitesse, mobile) pour apparaître dans les recherches locales.</p>
+            <p>En complément, on configure et optimise votre fiche <strong>Google Business Profile</strong> pour que vous apparaissiez dans les résultats "près de moi" — gratuitement et en priorité.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CATÉGORIE 3 : GOOGLE ADS -->
+    <div class="faq-category">
+      <div class="faq-category-label">Google Ads</div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">C'est quoi Google Ads et à quoi ça sert ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Google Ads, c'est la publicité qui apparaît en haut de Google quand quelqu'un tape "plombier urgence Lyon" ou "électricien Tours". Votre annonce s'affiche devant des gens qui cherchent exactement ce que vous faites, dans votre zone.</p>
+            <p>C'est le moyen le plus rapide d'obtenir des appels dès les premiers jours — contrairement au référencement naturel qui prend des mois.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Qui paye les publicités Google ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>Vous payez directement Google</strong>, via votre propre compte Google Ads. FORGE ne touche pas à votre budget publicitaire.</p>
+            <div class="highlight">Ce que vous payez à FORGE, c'est uniquement la gestion des campagnes — la stratégie, les mots-clés, les annonces, le suivi et les optimisations. Votre budget pub reste entre vos mains, en toute transparence.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Quel budget faut-il prévoir pour les publicités ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>On recommande un minimum de <strong>150€/mois</strong> de budget publicitaire pour obtenir des résultats significatifs dans la plupart des zones. Plus le budget est élevé, plus la visibilité est grande.</p>
+            <p>Ce montant est défini ensemble selon votre activité, votre zone géographique et vos objectifs. Pas de surprise : vous contrôlez et pouvez ajuster à tout moment.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CATÉGORIE 4 : TARIFS & ENGAGEMENT -->
+    <div class="faq-category">
+      <div class="faq-category-label">Tarifs & engagement</div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Combien ça coûte ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Nos tarifs dépendent de vos besoins : site seul, site + Google Ads, avec ou sans suivi mensuel. On ne propose pas de forfait unique parce que chaque artisan a une situation différente.</p>
+            <p>Le mieux c'est de <strong>nous contacter</strong> pour un appel découverte gratuit. En 20 minutes, on évalue ensemble ce dont vous avez besoin et on vous fait une proposition claire.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Y a-t-il un engagement dans la durée ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Ça dépend de la formule choisie. On vous présente les conditions exactes avant de signer quoi que ce soit. Aucune mauvaise surprise.</p>
+            <p>Notre modèle est basé sur la confiance : si ça ne marche pas, on ne veut pas vous forcer à rester.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span class="faq-question-text">Que se passe-t-il si je veux arrêter ?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Vous récupérez votre site et votre nom de domaine. On vous transfère tout. On arrête les campagnes Ads et vous gardez le contrôle de votre compte Google.</p>
+            <p>On préfère des clients satisfaits qui restent à des clients retenus par contrat.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-block">
+      <h2>Votre question n'est pas là ?</h2>
+      <p>Contactez-nous directement — on répond sous 24h, sans engagement.</p>
+      <a href="index.html#contact" class="cta-btn">Nous contacter →</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">F<span>O</span>RGE</div>
+    <p>Présence digitale pour artisans &amp; indépendants</p>
+    <p style="margin-top:8px;">
+      <a href="index.html">Accueil</a>
+      &nbsp;·&nbsp;
+      <a href="tarifs.html">Tarifs</a>
+      &nbsp;·&nbsp;
+      <a href="faq.html">FAQ</a>
+      &nbsp;·&nbsp;
+      <a href="mentions-legales.html">Mentions légales</a>
+    </p>
+    <p style="margin-top:10px;">© 2026 FORGE</p>
+  </footer>
+
+  <script>
+    // Accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        // Close all
+        document.querySelectorAll('.faq-question').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          b.nextElementSibling.style.maxHeight = null;
+        });
+        // Open clicked if was closed
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          const answer = btn.nextElementSibling;
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

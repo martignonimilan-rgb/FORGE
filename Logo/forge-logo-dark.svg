@@ -1,0 +1,52 @@
+<svg viewBox="0 0 360 96" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>FORGE — Présence digitale pour artisans &amp; indépendants</title>
+
+  <!-- Fond sombre -->
+  <rect width="360" height="96" fill="#0A0E1A" rx="0"/>
+
+  <!-- ── ICÔNE FLAMME ── -->
+  <g transform="translate(14, 10)">
+
+    <!-- Flamme gauche (arrière) -->
+    <path d="M14,66 C6,66 2,50 6,30 C9,16 14,10 14,10
+             C14,10 20,18 22,32 C25,50 22,66 14,66 Z"
+          fill="#E8620A" opacity="0.45"/>
+
+    <!-- Flamme droite (arrière) -->
+    <path d="M40,66 C34,66 31,52 33,36 C35,24 40,17 40,17
+             C40,17 46,25 48,37 C51,53 48,66 40,66 Z"
+          fill="#FF4500" opacity="0.6"/>
+
+    <!-- Flamme centrale (principale) -->
+    <path d="M27,66 C15,66 11,46 15,22 C19,4 27,0 27,0
+             C27,0 35,4 39,22 C43,46 39,66 27,66 Z"
+          fill="#E8620A"/>
+
+    <!-- Reflet intérieur (chaleur) -->
+    <path d="M27,56 C21,56 19,44 21,28 C23,16 27,10 27,10
+             C27,10 31,16 33,28 C35,44 33,56 27,56 Z"
+          fill="#FF9640" opacity="0.55"/>
+
+    <!-- Base / braise -->
+    <ellipse cx="27" cy="67" rx="19" ry="3" fill="#E8620A" opacity="0.28"/>
+
+  </g>
+
+  <!-- ── TEXTE FORGE ── -->
+  <text
+    x="78" y="57"
+    font-family="Georgia, 'Palatino Linotype', serif"
+    font-size="48"
+    font-weight="bold"
+    fill="#FFFFFF"
+    letter-spacing="7">FORGE</text>
+
+  <!-- ── TAGLINE ── -->
+  <text
+    x="80" y="74"
+    font-family="'Helvetica Neue', Arial, sans-serif"
+    font-size="9"
+    fill="rgba(255,255,255,0.35)"
+    letter-spacing="3.8">ARTISANS &amp; INDÉPENDANTS</text>
+
+</svg>
